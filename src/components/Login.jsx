@@ -6,14 +6,15 @@ import { client } from '../client';
 
 const Login = () => {
   const navigate = useNavigate();
+
   const responseGoogle = async (res) => {
     const decoded = jwt_decode(res.credential);
     localStorage.setItem('user', JSON.stringify(decoded));
 
-    const { name, jti, picture } = decoded;
+    const { name, sub, picture } = decoded;
 
     const doc = {
-      _id: jti,
+      _id: sub,
       _type: 'user',
       userName: name,
       image: picture,
@@ -21,6 +22,7 @@ const Login = () => {
 
     client.createIfNotExists(doc).then(() => navigate('/', { replace: true }));
   };
+
   return (
     <div className="flex flex-col items-center justify-start h-screen">
       <div className="relative w-full h-full">

@@ -5,7 +5,12 @@ export const client = sanityClient({
   projectId: process.env.REACT_APP_SANITY_PROJECT_ID,
   dataset: 'production',
   apiVersion: '2022-09-18',
-  useCdn: true,
+  /**
+   * If true, use the CDN-distributed, cached API,
+   * else if false, the live, uncached API
+   * TODO Change to true later
+   **/
+  useCdn: false,
   token: process.env.REACT_APP_SANITY_TOKEN,
 });
 
