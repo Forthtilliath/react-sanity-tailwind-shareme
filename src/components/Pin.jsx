@@ -130,6 +130,7 @@ const Pin = ({ pin }) => {
               {destination && (
                 <a
                   href={destination}
+                  onClick={(e) => e.stopPropagation()}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 p-2 pl-4 pr-4 font-bold text-black bg-white rounded-full opacity-70 hover:opacity-100 hover:shadow-md">

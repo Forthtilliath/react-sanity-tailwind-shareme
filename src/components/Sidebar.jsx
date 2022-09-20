@@ -5,6 +5,8 @@ import { Link, NavLink } from 'react-router-dom';
 
 import { categories } from '../utils/data';
 
+import UserImage from './UserImage';
+
 const isNotActiveStyle =
   'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize';
 const isActiveStyle =
@@ -56,12 +58,7 @@ const Sidebar = ({ user, closeToggle }) => {
           to={`user-profile/${user._id}`}
           className="flex items-center gap-2 p-2 mx-3 my-5 mb-3 bg-white rounded-lg shadow-lg"
           onClick={closeToggle}>
-          <img
-            src={user.image}
-            referrerPolicy="no-referrer"
-            className="w-10 h-10 rounded-full"
-            alt="user-profile"
-          />
+          <UserImage user={user} className="w-10 h-10 rounded-full" />
           <p>{user.userName}</p>
           <IoIosArrowForward />
         </Link>
