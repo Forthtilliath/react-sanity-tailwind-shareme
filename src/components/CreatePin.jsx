@@ -18,13 +18,9 @@ const initialInputs = {
 };
 
 const CreatePin = ({ user }) => {
-  // const [title, setTitle] = useState('');
-  // const [about, setAbout] = useState('');
-  // const [destination, setDestination] = useState('');
-  // const [category, setCategory] = useState();
+  const [inputs, setInputs] = useState(initialInputs);
   const [image, setImage] = useState('');
 
-  const [inputs, setInputs] = useState(initialInputs);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [wrongImageType, setWrongImageType] = useState(false);
@@ -124,6 +120,7 @@ const CreatePin = ({ user }) => {
                 </div>
                 <input
                   type="file"
+                  accept=".png,.jpg,.jpeg,.gif,.svg,.tiff"
                   name="upload-image"
                   onChange={uploadImage}
                   className="w-0 h-0"

@@ -16,6 +16,8 @@ const Pin = ({ pin }) => {
   const navigate = useNavigate();
 
   const { _id, postedBy, image, destination } = pin;
+  const shortDestination = removeHttp(destination);
+
   const [save, setSave] = useState(pin.save ?? []);
 
   const user = fetchUser();
@@ -134,10 +136,10 @@ const Pin = ({ pin }) => {
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 p-2 pl-4 pr-4 font-bold text-black bg-white rounded-full opacity-70 hover:opacity-100 hover:shadow-md">
-                  <BsFillArrowUpRightCircleFill />{' '}
-                  {destination.length > 15
-                    ? destination.slice(8, 23)
-                    : destination.slice(8)}
+                  <BsFillArrowUpRightCircleFill />
+                  {shortDestination.length > 12
+                    ? `${shortDestination.slice(0, 12)}...`
+                    : shortDestination}
                 </a>
               )}
               {postedBy?._id === user?.sub && (
