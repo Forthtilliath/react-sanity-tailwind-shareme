@@ -66,28 +66,29 @@ export const categories = [
   },
 ];
 
+// TODO : change to method
 export const feedQuery = `*[_type == "pin"] | order(_createdAt desc) {
     image{
       asset->{
         url
       }
     },
+    _id,
+    destination,
+    postedBy->{
+      _id,
+      userName,
+      image
+    },
+    save[]{
+      _key,
+      postedBy->{
         _id,
-        destination,
-        postedBy->{
-          _id,
-          userName,
-          image
-        },
-        save[]{
-          _key,
-          postedBy->{
-            _id,
-            userName,
-            image
-          },
-        },
-      } `;
+        userName,
+        image
+      },
+    },
+  } `;
 
 export const pinDetailQuery = (pinId) => {
   const query = `*[_type == "pin" && _id == '${pinId}']{
@@ -184,7 +185,7 @@ export const userQuery = (userId) => {
 };
 
 export const userCreatedPinsQuery = (userId) => {
-  const query = `*[ _type == 'pin' && userId == '${userId}'] | order(_createdAt desc){
+  const query = `*[_type == 'pin' && userId == '${userId}' ] | order(_createdAt desc){
       image{
         asset->{
           url

@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { fetchUser } from '../utils/fetchUser';
 import { useEffectOnce, useToggle } from '../utils/hooks';
+import { removeHttp } from '../utils/methods';
 
 import { client, urlFor } from '../client';
 
@@ -61,28 +62,15 @@ const Pin = ({ pin }) => {
   const deletePin = (id) => {
     if (!user) return;
 
-    client
-      .delete(id)
-      .setIfMissing({ save: [] })
-      .insert('after', 'save[-1]', [
-        {
-          _key: uuidv4(),
-          userId: user.sub,
-          postedBy: {
-            _type: 'postedBy',
-            _ref: user.sub,
-          },
-        },
-      ])
-      .commit()
-      .then((pinUpdated) => {
-        setSave(pinUpdated.save);
-      });
+    // client.delete(id).then((pinUpdated) => setSave(pinUpdated.save));
+    // client.delete(id).then(console.log);
+    client.delete(id).then(() => {
+      window.location.reload();
+    });
   };
 
   return (
     <div className="m-2">
-      {alreadySaved}
       <div
         className="relative w-auto overflow-hidden transition-all duration-500 ease-in-out rounded-lg cursor-zoom-in hover:shadow-lg"
         onMouseEnter={togglePostHovered}

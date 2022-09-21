@@ -14,7 +14,7 @@ const isActiveStyle =
 
 const Sidebar = ({ user, closeToggle }) => {
   return (
-    <div className="flex flex-col h-full overflow-y-scroll bg-white min-w-210 hide-scrollbar">
+    <div className="flex flex-col justify-between h-full overflow-y-scroll bg-white min-w-210 hide-scrollbar">
       <div className="flex flex-col">
         <Link to="/" className="flex items-center gap-2 px-5 pt-1 my-6 w-190">
           <img

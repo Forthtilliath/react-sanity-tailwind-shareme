@@ -43,6 +43,7 @@ const CreatePin = ({ user }) => {
       'image/jpeg',
       'image/gif',
       'image/tiff',
+      'image/webp',
     ];
 
     if (authorizedTypes.includes(selectedFile.type)) {
@@ -83,7 +84,7 @@ const CreatePin = ({ user }) => {
           _ref: image?._id,
         },
       },
-      userId: user.id,
+      userId: user._id,
       postedBy: {
         _type: 'postedBy',
         _ref: user._id,
@@ -120,7 +121,7 @@ const CreatePin = ({ user }) => {
                 </div>
                 <input
                   type="file"
-                  accept=".png,.jpg,.jpeg,.gif,.svg,.tiff"
+                  accept=".png,.jpg,.jpeg,.gif,.svg,.tiff,.webp"
                   name="upload-image"
                   onChange={uploadImage}
                   className="w-0 h-0"
