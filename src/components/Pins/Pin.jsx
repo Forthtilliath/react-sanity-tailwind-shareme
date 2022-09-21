@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
 import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { fetchUser } from '../utils/fetchUser';
-import { useEffectOnce, useToggle } from '../utils/hooks';
-import { removeHttp } from '../utils/methods';
+import { fetchUser } from '../../utils/fetchUser';
+import { useEffectOnce, useToggle } from '../../utils/hooks';
+import { removeHttp } from '../../utils/methods';
 
-import { client, urlFor } from '../client';
+import { client, urlFor } from '../../client';
 
 const Pin = ({ pin }) => {
   const [postHovered, togglePostHovered] = useToggle();

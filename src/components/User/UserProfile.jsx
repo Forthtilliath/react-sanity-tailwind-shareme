@@ -7,12 +7,12 @@ import {
   userCreatedPinsQuery,
   userQuery,
   userSavedPinsQuery,
-} from '../utils/data';
-import { useEffectOnce } from '../utils/hooks';
+} from '../../utils/data';
+import { useEffectOnce } from '../../utils/hooks';
 
-import { client } from '../client';
-import MasonryLayout from './MasonryLayout';
-import Spinner from './Spinner';
+import { client } from '../../client';
+import MasonryLayout from '../MasonryLayout';
+import Spinner from '../Spinner';
 import UserImage from './UserImage';
 
 const activeBtnStyles =

@@ -2,7 +2,7 @@ import React from 'react';
 import { IoMdAdd, IoMdSearch } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 
-import UserImage from './UserImage';
+import { UserImage } from './';
 
 const Navbar = ({ searchTerm, setSearchTerm, user }) => {
   const navigate = useNavigate();

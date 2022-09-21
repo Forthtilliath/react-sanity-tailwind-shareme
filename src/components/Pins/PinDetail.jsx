@@ -3,13 +3,13 @@ import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/data';
-import { useEffectOnce } from '../utils/hooks';
+import { pinDetailMorePinQuery, pinDetailQuery } from '../../utils/data';
+import { useEffectOnce } from '../../utils/hooks';
 
-import { client, urlFor } from '../client';
-import MasonryLayout from './MasonryLayout';
-import Spinner from './Spinner';
-import UserImage from './UserImage';
+import { client, urlFor } from '../../client';
+import MasonryLayout from '../MasonryLayout';
+import Spinner from '../Spinner';
+import UserImage from '../User/UserImage';
 
 const PinDetail = ({ user }) => {
   const [pins, setPins] = useState([]);
@@ -158,9 +158,9 @@ const PinDetail = ({ user }) => {
           <MasonryLayout pins={pins} />
         </>
       ) : (
-        <div className="mt-2">
-          <Spinner message="Loading more pins..." />
-        </div>
+        <h2 className="mt-8 mb-4 font-bold text-center text-2x">
+          No more pins available
+        </h2>
       )}
     </>
   );

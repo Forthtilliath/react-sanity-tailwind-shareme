@@ -3,12 +3,12 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
-import { categories } from '../utils/data';
-import { wait } from '../utils/methods';
+import { categories } from '../../utils/data';
+import { wait } from '../../utils/methods';
 
-import { client } from '../client';
-import Spinner from './Spinner';
-import UserImage from './UserImage';
+import { client } from '../../client';
+import Spinner from '../Spinner';
+import UserImage from '../User/UserImage';
 
 const initialInputs = {
   title: '',

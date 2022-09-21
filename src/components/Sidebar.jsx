@@ -5,7 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 import { categories } from '../utils/data';
 
-import UserImage from './UserImage';
+import { UserImage } from './';
 
 const isNotActiveStyle =
   'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize';
