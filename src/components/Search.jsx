@@ -4,8 +4,7 @@ import { feedQuery, searchQuery } from '../utils/data';
 import { useEffectOnce } from '../utils/hooks';
 
 import { client } from '../client';
-import MasonryLayout from './MasonryLayout';
-import Spinner from './Spinner';
+import { MasonryLayout, Spinner } from './';
 
 const Search = ({ searchTerm }) => {
   const [pins, setPins] = useState([]);

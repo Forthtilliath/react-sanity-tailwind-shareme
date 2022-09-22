@@ -10,10 +10,8 @@ import {
 } from '../../utils/data';
 import { useEffectOnce } from '../../utils/hooks';
 
+import { MasonryLayout, Spinner, UserImage } from '../';
 import { client } from '../../client';
-import MasonryLayout from '../MasonryLayout';
-import Spinner from '../Spinner';
-import UserImage from './UserImage';
 
 const activeBtnStyles =
   'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none';

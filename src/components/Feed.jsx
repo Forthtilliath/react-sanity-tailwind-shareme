@@ -5,8 +5,7 @@ import { feedQuery, searchQuery } from '../utils/data';
 import { useToggle } from '../utils/hooks';
 
 import { client } from '../client';
-import MasonryLayout from './MasonryLayout';
-import Spinner from './Spinner';
+import { MasonryLayout, Spinner } from './';
 
 const Feed = () => {
   const [loading, toggleLoading, startLoading, stopLoading] = useToggle(false);

@@ -6,10 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { pinDetailMorePinQuery, pinDetailQuery } from '../../utils/data';
 import { useEffectOnce } from '../../utils/hooks';
 
+import { MasonryLayout, Spinner, UserImage } from '../';
 import { client, urlFor } from '../../client';
-import MasonryLayout from '../MasonryLayout';
-import Spinner from '../Spinner';
-import UserImage from '../User/UserImage';
 
 const PinDetail = ({ user }) => {
   const [pins, setPins] = useState([]);

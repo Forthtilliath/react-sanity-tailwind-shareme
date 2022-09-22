@@ -6,9 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { categories } from '../../utils/data';
 import { wait } from '../../utils/methods';
 
+import { Spinner, UserImage } from '../';
 import { client } from '../../client';
-import Spinner from '../Spinner';
-import UserImage from '../User/UserImage';
 
 const initialInputs = {
   title: '',
