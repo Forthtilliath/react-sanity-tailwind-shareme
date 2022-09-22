@@ -27,7 +27,7 @@ const Search = ({ searchTerm }) => {
   if (!pins.length && searchTerm !== '')
     return <div className="mt-10 text-xl text-center">No Pins Found!</div>;
 
-  return <MasonryLayout pins={pins} />;
+  return <MasonryLayout pins={pins} setPins={setPins} />;
 };
 
 export default Search;

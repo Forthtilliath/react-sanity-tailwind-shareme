@@ -28,7 +28,7 @@ const Feed = () => {
 
   if (!pins.length) return <h2>No pins available</h2>;
 
-  return <MasonryLayout pins={pins} />;
+  return <MasonryLayout pins={pins} setPins={setPins} />;
 };
 
 export default Feed;

@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       margin: {
@@ -18,14 +17,14 @@ module.exports = {
         508: '508px',
       },
       height: {
-        80: '80px',
-        340: '340px',
-        370: '370px',
-        420: '420px',
-        510: '510px',
-        600: '600px',
-        685: '685px',
-        800: '800px',
+        '80': '80px',
+        '340': '340px',
+        '370': '370px',
+        '420': '420px',
+        '510': '510px',
+        '600': '600px',
+        '685': '685px',
+        '800': '800px',
         '90vh': '90vh',
       },
       flex: {
@@ -54,28 +53,29 @@ module.exports = {
         'slide-in': {
           '0%': {
             '-webkit-transform': 'translateX(-200px)',
-            transform: 'translateX(-200px)',
+            'transform': 'translateX(-200px)',
           },
           '100%': {
             '-webkit-transform': 'translateX(0px)',
-            transform: 'translateX(0px)',
+            'transform': 'translateX(0px)',
           },
         },
 
         'slide-fwd': {
           '0%': {
             '-webkit-transform': 'translateZ(0px)',
-            transform: 'translateZ(0px)',
+            'transform': 'translateZ(0px)',
           },
           '100%': {
             '-webkit-transform': 'translateZ(160px)',
-            transform: 'translateZ(160px)',
+            'transform': 'translateZ(160px)',
           },
         },
       },
       animation: {
         'slide-in': 'slide-in 0.5s ease-out',
-        'slide-fwd': ' slide-fwd 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'slide-fwd':
+          ' slide-fwd 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
       },
       transitionProperty: {
         height: 'height',
@@ -83,7 +83,7 @@ module.exports = {
     },
     cursor: {
       'zoom-in': 'zoom-in',
-      pointer: 'pointer',
+      'pointer': 'pointer',
     },
   },
   variants: {

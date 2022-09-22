@@ -8,7 +8,6 @@ export const client = sanityClient({
   /**
    * If true, use the CDN-distributed, cached API,
    * else if false, the live, uncached API
-   * TODO Change to true later
    **/
   useCdn: false,
   token: process.env.REACT_APP_SANITY_TOKEN,

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
-import { MdDownloadForOffline } from 'react-icons/md';
+import { MdDownloadForOffline, MdRemoveShoppingCart } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +11,7 @@ import { removeHttp } from '../../utils/methods';
 
 import { client, urlFor } from '../../client';
 
-const Pin = ({ pin }) => {
+const Pin = ({ pin, setPins }) => {
   const [postHovered, togglePostHovered] = useToggle();
   const [savingPost, toggleSavingPost] = useToggle();
   const navigate = useNavigate();
@@ -62,10 +62,10 @@ const Pin = ({ pin }) => {
   const deletePin = (id) => {
     if (!user) return;
 
-    // client.delete(id).then((pinUpdated) => setSave(pinUpdated.save));
-    // client.delete(id).then(console.log);
-    client.delete(id).then(() => {
-      window.location.reload();
+    client.delete(id).then((transaction) => {
+      if (transaction.results.length) {
+        setPins((pins) => pins.filter((pin) => pin._id !== id));
+      }
     });
   };
 

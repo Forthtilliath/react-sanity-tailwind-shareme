@@ -153,7 +153,7 @@ const PinDetail = ({ user }) => {
           <h2 className="mt-8 mb-4 font-bold text-center text-2x">
             More like this
           </h2>
-          <MasonryLayout pins={pins} />
+          <MasonryLayout pins={pins} setPins={setPins} />
         </>
       ) : (
         <h2 className="mt-8 mb-4 font-bold text-center text-2x">
