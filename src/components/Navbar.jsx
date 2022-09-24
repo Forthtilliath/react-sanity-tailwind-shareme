@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <div className="flex w-full gap-2 mt-5 md:gap-5 pb-7">
-      <div className="flex items-center justify-start w-full px-2 bg-white border-none rounded-md outline-none focus-within:shadow-sm">
+      <div className="flex items-center justify-start w-full px-2 bg-white border-none rounded-md outline-none focus-within:shadow-sm focus-within:outline-2 focus-within:outline-red-500">
         <IoMdSearch fontSize={21} className="ml-1" />
         <input
           type="text"
