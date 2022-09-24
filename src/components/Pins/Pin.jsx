@@ -11,7 +11,6 @@ import { useEffectOnce, useToggle } from '../../utils/hooks';
 import { removeHttp } from '../../utils/methods';
 
 import { client, urlFor } from '../../client';
-import Button from '../Dialog/Button';
 import Confirm from '../Dialog/Confirm';
 import UserImage from '../User/UserImage';
 
@@ -36,8 +35,8 @@ const Pin = ({ pin, setPins }) => {
 
   /* Checking if the user is the owner of the pin or if the user is a moderator or admin. */
   const canModerate =
-    postedBy?._id === user._id ||
-    [ROLES.moderator, ROLES.admin].some((role) => user.roles.includes(role));
+    postedBy?._id === user?._id ||
+    [ROLES.moderator, ROLES.admin].some((role) => user?.roles.includes(role));
 
   useEffectOnce(() => {
     client.getDocument(_id).then((pin) => setSave(pin.save ?? []));

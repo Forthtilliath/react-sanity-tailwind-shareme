@@ -15,7 +15,6 @@ const isActiveStyle =
 
 const Sidebar = ({ closeToggle }) => {
   const { user } = useUserContext();
-  // console.log('Sidebar', { user });
 
   return (
     <div className="flex flex-col justify-between h-full overflow-y-scroll bg-white min-w-210 hide-scrollbar">

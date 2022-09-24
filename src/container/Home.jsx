@@ -14,10 +14,6 @@ const Home = () => {
   const { user } = useUserContext();
 
   useEffectOnce(() => {
-    // console.log('HOME', { user });
-  }, [user]);
-
-  useEffectOnce(() => {
     scrollRef.current.scrollTo(0, 0);
   });
 

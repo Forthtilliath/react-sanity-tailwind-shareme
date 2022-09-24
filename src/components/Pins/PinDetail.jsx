@@ -64,7 +64,6 @@ const PinDetail = ({ user }) => {
   if (!pinDetail) {
     return <Spinner message="Loading pin..." />;
   }
-  // console.log({ pinDetail });
 
   return (
     <>

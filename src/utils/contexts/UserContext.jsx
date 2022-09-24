@@ -22,6 +22,7 @@ function UserProvider({ children }) {
         if (data.length === 1) {
           setUser(data[0]);
         } else {
+          setUser(null);
           localStorage.removeItem(LOCALSTORAGE_KEY_USER);
         }
       });
@@ -29,7 +30,6 @@ function UserProvider({ children }) {
   }, []);
 
   const login = (data) => {
-    console.log('login()', { data });
     const dataToEncode = {
       _id: data._id,
       _createdAt: data._createdAt,
