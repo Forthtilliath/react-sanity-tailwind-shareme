@@ -6,7 +6,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:jsx-a11y/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -15,12 +17,11 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks"],
+  "plugins": ["react", "react-hooks", "jsx-a11y"],
   "rules": {
-    "react/react-in-jsx-scope": 0,
-    "no-unused-vars": 0,
-    "no-undef": 0,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "no-unused-vars": 1,
+    "no-undef": 1
   },
   "settings": {
     "react": {

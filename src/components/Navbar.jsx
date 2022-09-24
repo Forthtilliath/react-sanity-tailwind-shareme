@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoMdAdd, IoMdSearch } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -28,12 +27,14 @@ const Navbar = () => {
         />
       </div>
       <div className="flex gap-3">
-        <Link to={`user-profile/${user._id}`} className="hidden md:block">
+        <Link
+          to={`user-profile/${user._id}`}
+          className="hidden rounded-lg md:block focus-within:outline outline-red-500 outline-2 outline-offset-0">
           <UserImage src={user.image} className="h-12 rounded-lg w-14" />
         </Link>
         <Link
           to="create-pin"
-          className="flex items-center justify-center w-12 h-12 text-white bg-black rounded-lg md:w-14 md:h-12">
+          className="flex items-center justify-center w-12 h-12 text-white bg-black rounded-lg md:w-14 md:h-12 focus-within:outline outline-red-500 outline-2 outline-offset-0">
           <IoMdAdd />
         </Link>
       </div>

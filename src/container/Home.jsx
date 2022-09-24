@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { Link, Outlet } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useEffectOnce, useToggle } from '../utils/hooks';
 import { Sidebar } from '../components';
 
 const Home = () => {
+  // eslint-disable-next-line no-unused-vars
   const [showSidebar, _toggleSidebar, openSidebar, closeSidebar] = useToggle();
   const scrollRef = useRef();
   const { user } = useUserContext();

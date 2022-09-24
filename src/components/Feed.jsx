@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { feedQuery, searchQuery } from '../utils/data';
@@ -8,7 +8,8 @@ import { client } from '../client';
 import { MasonryLayout, Spinner } from './';
 
 const Feed = () => {
-  const [loading, toggleLoading, startLoading, stopLoading] = useToggle(false);
+  // eslint-disable-next-line no-unused-vars
+  const [loading, _toggleLoading, startLoading, stopLoading] = useToggle(false);
   const [pins, setPins] = useState([]);
 
   const { categoryId } = useParams();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useSearchContext } from '../utils/contexts/SearchContext';
 import { feedQuery, searchQuery } from '../utils/data';

@@ -1,5 +1,5 @@
 import { googleLogout } from '@react-oauth/google';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const UserImage = ({ src, ...otherProps }) => {
   if (!src) {
     return <p>Error src</p>;

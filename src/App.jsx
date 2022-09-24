@@ -21,7 +21,6 @@ function App() {
   /* It will check if the user is logged in and if not,
   it will redirect to the login page. */
   useEffectOnce(() => {
-    if (user === undefined) return;
     if (user === null) navigate('/login');
   }, [user]);
 

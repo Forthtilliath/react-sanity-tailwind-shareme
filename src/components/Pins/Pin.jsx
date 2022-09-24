@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useRef } from 'react';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
 import { MdDownloadForOffline } from 'react-icons/md';
@@ -24,6 +25,11 @@ const Pin = ({ pin, setPins }) => {
 
   const [save, setSave] = useState(pin.save ?? []);
   const { user } = useUserContext();
+
+  const dlRef = useRef(null);
+  const saveRef = useRef(null);
+  const linkRef = useRef(null);
+  const delRef = useRef(null);
 
   /* Checking if the user has already saved the pin. */
   const alreadySaved = useMemo(
@@ -77,6 +83,28 @@ const Pin = ({ pin, setPins }) => {
     });
   };
 
+  const handleKeyDown = ({ code }) => {
+    if (['Enter', 'Space'].includes(code)) {
+      navigate(`/pin-detail/${_id}`);
+    }
+    if (code === 'KeyD') {
+      dlRef.current.click();
+      return;
+    }
+    if (code === 'KeyS') {
+      saveRef.current.click();
+      return;
+    }
+    if (code === 'KeyL') {
+      linkRef.current.click();
+      return;
+    }
+    if (code === 'KeyR') {
+      delRef.current.click();
+      return;
+    }
+  };
+
   return (
     <div className="m-2">
       <div>
@@ -89,8 +117,12 @@ const Pin = ({ pin, setPins }) => {
         </Confirm>
       </div>
       <div
-        className="relative w-auto overflow-hidden transition-all duration-500 ease-in-out rounded-lg cursor-zoom-in hover:shadow-lg group"
-        onClick={() => navigate(`/pin-detail/${_id}`)}>
+        className="relative w-auto overflow-hidden transition-all duration-500 ease-in-out rounded-lg cursor-zoom-in hover:shadow-lg group outline-red-500 outline-2 outline-offset-0"
+        onClick={() => navigate(`/pin-detail/${_id}`)}
+        onKeyDown={handleKeyDown}
+        aria-label="Show Pin Details"
+        tabIndex={0}
+        role="button">
         <img
           className="w-full rounded-lg"
           alt="user-post"
@@ -98,13 +130,15 @@ const Pin = ({ pin, setPins }) => {
         />
         {!confirmOpen && (
           <div
-            className="absolute top-0 z-50 flex-col justify-between hidden w-full h-full p-1 pt-2 pb-2 pr-2 group-hover:flex"
+            className="absolute top-0 z-50 flex-col justify-between hidden w-full h-full p-1 pt-2 pb-2 pr-2 group-hover:flex group-focus:flex"
             style={{ height: '100%' }}>
             <div className="flex items-center justify-between">
               <div className="flex gap-2">
                 <a
                   href={`${image?.asset?.url}?dl=`}
                   download
+                  tabIndex={-1}
+                  ref={dlRef}
                   onClick={(e) => e.stopPropagation()}
                   className="flex items-center justify-center p-2 text-xl bg-white rounded-full outline-none opacity-75 w-9 h-9 text-dark hover:opacity-100 hover:shadow-md">
                   <MdDownloadForOffline />
@@ -113,6 +147,8 @@ const Pin = ({ pin, setPins }) => {
               {alreadySaved ? (
                 <button
                   type="button"
+                  tabIndex={-1}
+                  ref={saveRef}
                   onClick={(e) => e.stopPropagation()}
                   className="px-5 py-1 text-base font-bold text-white bg-red-500 outline-none opacity-70 hover:opacity-100 rounded-3xl hover:shadow-md">
                   {save?.length} Saved
@@ -120,6 +156,8 @@ const Pin = ({ pin, setPins }) => {
               ) : (
                 <button
                   type="button"
+                  tabIndex={-1}
+                  ref={saveRef}
                   onClick={(e) => {
                     e.stopPropagation();
                     savePin(_id);
@@ -133,6 +171,9 @@ const Pin = ({ pin, setPins }) => {
               {destination && (
                 <a
                   href={destination}
+                  tabIndex={-1}
+                  ref={delRef}
+                  aria-label="Go to destination"
                   onClick={(e) => e.stopPropagation()}
                   target="_blank"
                   rel="noreferrer"
@@ -146,6 +187,7 @@ const Pin = ({ pin, setPins }) => {
               {canModerate && (
                 <button
                   type="button"
+                  tabIndex={-1}
                   aria-label="delete"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -160,13 +202,13 @@ const Pin = ({ pin, setPins }) => {
         )}
       </div>
       <Link
-        to={`user-profile/${postedBy?._id}`}
-        className="flex items-center gap-2 mt-2">
+        to={`/user-profile/${postedBy?._id}`}
+        className="flex items-center gap-2 mt-2 outline-red-500 outline-2 outline-offset-2 rounded-2xl">
         <UserImage
           src={postedBy?.image}
           className="object-cover w-8 h-8 rounded-full"
         />
-        <p className="font-semibold capitalize">{postedBy?.userName}</p>
+        <p className="font-semibold capitalize ">{postedBy?.userName}</p>
       </Link>
     </div>
   );
