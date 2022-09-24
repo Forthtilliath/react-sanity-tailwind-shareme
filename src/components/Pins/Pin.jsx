@@ -26,6 +26,7 @@ const Pin = ({ pin, setPins }) => {
 
   const [save, setSave] = useState(pin.save ?? []);
   const { user } = useUserContext();
+  // console.log('Pin', { user });
 
   /* Checking if the user has already saved the pin. */
   const alreadySaved = useMemo(
@@ -35,8 +36,9 @@ const Pin = ({ pin, setPins }) => {
 
   /* Checking if the user is the owner of the pin or if the user is a moderator or admin. */
   const canModerate =
+    !user ||
     postedBy?._id === user?._id ||
-    [ROLES.moderator, ROLES.admin].some((role) => user?.roles.includes(role));
+    [ROLES.moderator, ROLES.admin].some((role) => user?.roles?.includes(role));
 
   useEffectOnce(() => {
     client.getDocument(_id).then((pin) => setSave(pin.save ?? []));

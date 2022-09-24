@@ -71,7 +71,7 @@ const PinDetail = ({ user }) => {
         <div className="flex items-center justify-center flex-initial md:items-start">
           <img
             src={pinDetail?.image && urlFor(pinDetail.image)}
-            className="rounded-b-lg rounded-t-3xl"
+            className="object-contain w-full h-full rounded-b-lg rounded-t-3xl"
             alt="user-post"
           />
         </div>
@@ -97,7 +97,7 @@ const PinDetail = ({ user }) => {
             <p className="mt-3">{pinDetail.about}</p>
           </div>
           <Link
-            to={`user-profile/${pinDetail.postedBy?._id}`}
+            to={`/user-profile/${pinDetail.postedBy?._id}`}
             className="flex items-center gap-2 mt-5 bg-white rounded-lg">
             <UserImage
               src={pinDetail.postedBy.image}
@@ -125,7 +125,7 @@ const PinDetail = ({ user }) => {
             ))}
           </div>
           <div className="flex flex-wrap gap-3 m-6">
-            <Link to={`user-profile/${pinDetail.postedBy?._id}`}>
+            <Link to={`/user-profile/${pinDetail.postedBy?._id}`}>
               <UserImage
                 src={pinDetail.postedBy.image}
                 className="w-10 h-10 rounded-full cursor-pointer"

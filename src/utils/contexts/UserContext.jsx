@@ -26,6 +26,9 @@ function UserProvider({ children }) {
           localStorage.removeItem(LOCALSTORAGE_KEY_USER);
         }
       });
+    } else {
+      setUser(null);
+      localStorage.removeItem(LOCALSTORAGE_KEY_USER);
     }
   }, []);
 
