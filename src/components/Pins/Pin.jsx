@@ -16,8 +16,6 @@ import UserImage from '../User/UserImage';
 
 const Pin = ({ pin, setPins }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
-
-  const [postHovered, togglePostHovered] = useToggle();
   const [savingPost, toggleSavingPost] = useToggle();
   const navigate = useNavigate();
 
@@ -26,7 +24,6 @@ const Pin = ({ pin, setPins }) => {
 
   const [save, setSave] = useState(pin.save ?? []);
   const { user } = useUserContext();
-  // console.log('Pin', { user });
 
   /* Checking if the user has already saved the pin. */
   const alreadySaved = useMemo(
@@ -36,7 +33,6 @@ const Pin = ({ pin, setPins }) => {
 
   /* Checking if the user is the owner of the pin or if the user is a moderator or admin. */
   const canModerate =
-    !user ||
     postedBy?._id === user?._id ||
     [ROLES.moderator, ROLES.admin].some((role) => user?.roles?.includes(role));
 
@@ -93,18 +89,16 @@ const Pin = ({ pin, setPins }) => {
         </Confirm>
       </div>
       <div
-        className="relative w-auto overflow-hidden transition-all duration-500 ease-in-out rounded-lg cursor-zoom-in hover:shadow-lg"
-        onMouseEnter={togglePostHovered}
-        onMouseLeave={togglePostHovered}
+        className="relative w-auto overflow-hidden transition-all duration-500 ease-in-out rounded-lg cursor-zoom-in hover:shadow-lg group"
         onClick={() => navigate(`/pin-detail/${_id}`)}>
         <img
           className="w-full rounded-lg"
           alt="user-post"
           src={urlFor(image).width(250).url()}
         />
-        {postHovered && !confirmOpen && (
+        {!confirmOpen && (
           <div
-            className="absolute top-0 z-50 flex flex-col justify-between w-full h-full p-1 pt-2 pb-2 pr-2"
+            className="absolute top-0 z-50 flex-col justify-between hidden w-full h-full p-1 pt-2 pb-2 pr-2 group-hover:flex"
             style={{ height: '100%' }}>
             <div className="flex items-center justify-between">
               <div className="flex gap-2">

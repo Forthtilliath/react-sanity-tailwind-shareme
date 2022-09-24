@@ -44,8 +44,3 @@ function App() {
 }
 
 export default App;
-
-/**
- * TODO List
- * [ ] Fix hover on pin
- */
