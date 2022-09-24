@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 
 function useEffectOnce(callback, deps) {
-  const secondRender = useRef(false);
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    if (secondRender.current) {
+    if (firstRender.current) {
       callback();
     }
-    secondRender.current = true;
+    firstRender.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
