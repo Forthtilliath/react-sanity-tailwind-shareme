@@ -1,17 +1,23 @@
 import React, { useMemo, useState } from 'react';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
-import { MdDownloadForOffline, MdRemoveShoppingCart } from 'react-icons/md';
+import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { fetchUser } from '../../utils/fetchUser';
+import { ROLES } from '../../utils/constants';
+import { useUserContext } from '../../utils/contexts/UserContext';
 import { useEffectOnce, useToggle } from '../../utils/hooks';
 import { removeHttp } from '../../utils/methods';
 
 import { client, urlFor } from '../../client';
+import Button from '../Dialog/Button';
+import Confirm from '../Dialog/Confirm';
+import UserImage from '../User/UserImage';
 
 const Pin = ({ pin, setPins }) => {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const [postHovered, togglePostHovered] = useToggle();
   const [savingPost, toggleSavingPost] = useToggle();
   const navigate = useNavigate();
@@ -20,13 +26,18 @@ const Pin = ({ pin, setPins }) => {
   const shortDestination = removeHttp(destination);
 
   const [save, setSave] = useState(pin.save ?? []);
+  const { user } = useUserContext();
 
-  const user = fetchUser();
-
+  /* Checking if the user has already saved the pin. */
   const alreadySaved = useMemo(
-    () => save.some((item) => item.postedBy?._ref === user?.sub),
+    () => save.some((item) => item.postedBy?._ref === user?._id),
     [save]
   );
+
+  /* Checking if the user is the owner of the pin or if the user is a moderator or admin. */
+  const canModerate =
+    postedBy?._id === user._id ||
+    [ROLES.moderator, ROLES.admin].some((role) => user.roles.includes(role));
 
   useEffectOnce(() => {
     client.getDocument(_id).then((pin) => setSave(pin.save ?? []));
@@ -44,10 +55,10 @@ const Pin = ({ pin, setPins }) => {
         .insert('after', 'save[-1]', [
           {
             _key: uuidv4(),
-            userId: user.sub,
+            userId: user._id,
             postedBy: {
               _type: 'postedBy',
-              _ref: user.sub,
+              _ref: user._id,
             },
           },
         ])
@@ -71,6 +82,15 @@ const Pin = ({ pin, setPins }) => {
 
   return (
     <div className="m-2">
+      <div>
+        <Confirm
+          title="Delete Post?"
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          onConfirm={() => deletePin(_id)}>
+          Are you sure you want to delete this pin?
+        </Confirm>
+      </div>
       <div
         className="relative w-auto overflow-hidden transition-all duration-500 ease-in-out rounded-lg cursor-zoom-in hover:shadow-lg"
         onMouseEnter={togglePostHovered}
@@ -81,7 +101,7 @@ const Pin = ({ pin, setPins }) => {
           alt="user-post"
           src={urlFor(image).width(250).url()}
         />
-        {postHovered && (
+        {postHovered && !confirmOpen && (
           <div
             className="absolute top-0 z-50 flex flex-col justify-between w-full h-full p-1 pt-2 pb-2 pr-2"
             style={{ height: '100%' }}>
@@ -103,17 +123,15 @@ const Pin = ({ pin, setPins }) => {
                   {save?.length} Saved
                 </button>
               ) : (
-                user && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      savePin(_id);
-                    }}
-                    className="px-5 py-1 text-base font-bold text-white bg-red-500 rounded-3xl opacity-70 hover:opacity-100-3xl hover:shadow-md outlined-none">
-                    {savingPost ? 'Saving' : 'Save'}
-                  </button>
-                )
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    savePin(_id);
+                  }}
+                  className="px-5 py-1 text-base font-bold text-white bg-red-500 rounded-3xl opacity-70 hover:opacity-100-3xl hover:shadow-md outlined-none">
+                  {savingPost ? 'Saving' : 'Save'}
+                </button>
               )}
             </div>
             <div className="flex items-center justify-between w-full gap-2">
@@ -130,12 +148,13 @@ const Pin = ({ pin, setPins }) => {
                     : shortDestination}
                 </a>
               )}
-              {postedBy?._id === user?.sub && (
+              {canModerate && (
                 <button
                   type="button"
+                  aria-label="delete"
                   onClick={(e) => {
                     e.stopPropagation();
-                    deletePin(_id);
+                    setConfirmOpen(true);
                   }}
                   className="flex items-center justify-center w-8 h-8 p-2 bg-white rounded-full outline-none opacity-75 text-dark hover:opacity-100">
                   <AiTwotoneDelete />
@@ -148,11 +167,9 @@ const Pin = ({ pin, setPins }) => {
       <Link
         to={`user-profile/${postedBy?._id}`}
         className="flex items-center gap-2 mt-2">
-        <img
-          className="object-cover w-8 h-8 rounded-full"
+        <UserImage
           src={postedBy?.image}
-          referrerPolicy="no-referrer"
-          alt="user-profile"
+          className="object-cover w-8 h-8 rounded-full"
         />
         <p className="font-semibold capitalize">{postedBy?.userName}</p>
       </Link>

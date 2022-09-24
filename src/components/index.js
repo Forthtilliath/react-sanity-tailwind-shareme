@@ -3,6 +3,7 @@ export { default as Pin } from './Pins/Pin';
 export { default as PinDetail } from './Pins/PinDetail';
 
 export { default as Login } from './User/Login';
+export { default as PrivateRoute } from './User/PrivateRoute';
 export { default as UserImage } from './User/UserImage';
 export { default as UserProfile } from './User/UserProfile';
 

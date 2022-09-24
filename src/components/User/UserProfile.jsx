@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { LOCALSTORAGE_KEY_USER } from '../../utils/constants';
 import {
   userCreatedPinsQuery,
   userQuery,
@@ -39,7 +40,6 @@ const UserProfile = () => {
     if (text === 'Created') {
       const createdPinsQuery = userCreatedPinsQuery(userId);
       client.fetch(createdPinsQuery).then((data) => setPins(data));
-      client.fetch(createdPinsQuery).then(console.log);
     } else {
       const savedPinsQuery = userSavedPinsQuery(userId);
       client.fetch(savedPinsQuery).then((data) => setPins(data));
@@ -47,8 +47,12 @@ const UserProfile = () => {
   }, [text, userId]);
 
   const logout = () => {
-    localStorage.clear();
-    googleLogout();
+    localStorage.removeItem(LOCALSTORAGE_KEY_USER);
+    try {
+      googleLogout();
+    } catch (err) {
+      console.log({ err });
+    }
     navigate('/login');
   };
 
@@ -67,7 +71,7 @@ const UserProfile = () => {
               className="object-cover w-full shadow-lg h-370 2xl:h-510"
             />
             <UserImage
-              user={user}
+              src={user.image}
               className="object-cover w-20 h-20 -mt-10 rounded-full shadow-xl"
             />
             <h1 className="mt-3 text-3xl font-bold text-center">

@@ -2,12 +2,17 @@ import React from 'react';
 import { IoMdAdd, IoMdSearch } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { useSearchContext } from '../utils/contexts/SearchContext';
+import { useUserContext } from '../utils/contexts/UserContext';
+
 import { UserImage } from './';
 
-const Navbar = ({ searchTerm, setSearchTerm, user }) => {
+const Navbar = () => {
+  const { searchTerm, setSearchTerm } = useSearchContext();
+  const { user } = useUserContext();
   const navigate = useNavigate();
 
-  if (!user) return;
+  if (!user) return null;
 
   return (
     <div className="flex w-full gap-2 mt-5 md:gap-5 pb-7">
@@ -24,7 +29,7 @@ const Navbar = ({ searchTerm, setSearchTerm, user }) => {
       </div>
       <div className="flex gap-3">
         <Link to={`user-profile/${user._id}`} className="hidden md:block">
-          <UserImage user={user} className="h-12 rounded-lg w-14" />
+          <UserImage src={user.image} className="h-12 rounded-lg w-14" />
         </Link>
         <Link
           to="create-pin"

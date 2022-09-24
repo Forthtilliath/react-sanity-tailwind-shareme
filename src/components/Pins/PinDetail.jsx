@@ -64,6 +64,7 @@ const PinDetail = ({ user }) => {
   if (!pinDetail) {
     return <Spinner message="Loading pin..." />;
   }
+  // console.log({ pinDetail });
 
   return (
     <>
@@ -100,7 +101,7 @@ const PinDetail = ({ user }) => {
             to={`user-profile/${pinDetail.postedBy?._id}`}
             className="flex items-center gap-2 mt-5 bg-white rounded-lg">
             <UserImage
-              user={pinDetail.postedBy}
+              src={pinDetail.postedBy.image}
               className="object-cover w-8 h-8 rounded-full"
             />
             <p className="font-semibold capitalize">
@@ -114,7 +115,7 @@ const PinDetail = ({ user }) => {
                 key={i}
                 className="flex items-center gap-2 mt-5 bg-white rounded-lg">
                 <UserImage
-                  user={comment.postedBy}
+                  src={comment.postedBy.image}
                   className="w-10 h-10 rounded-full cursor-pointer"
                 />
                 <div className="flex flex-col">
@@ -127,7 +128,7 @@ const PinDetail = ({ user }) => {
           <div className="flex flex-wrap gap-3 m-6">
             <Link to={`user-profile/${pinDetail.postedBy?._id}`}>
               <UserImage
-                user={pinDetail.postedBy}
+                src={pinDetail.postedBy.image}
                 className="w-10 h-10 rounded-full cursor-pointer"
               />
             </Link>

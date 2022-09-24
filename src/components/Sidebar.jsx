@@ -3,6 +3,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { RiHomeFill } from 'react-icons/ri';
 import { Link, NavLink } from 'react-router-dom';
 
+import { useUserContext } from '../utils/contexts/UserContext';
 import { categories } from '../utils/data';
 
 import { UserImage } from './';
@@ -12,7 +13,10 @@ const isNotActiveStyle =
 const isActiveStyle =
   'flex items-center px-5 gap-3 font-extrabold border-r-2 border-black  transition-all duration-200 ease-in-out capitalize';
 
-const Sidebar = ({ user, closeToggle }) => {
+const Sidebar = ({ closeToggle }) => {
+  const { user } = useUserContext();
+  // console.log('Sidebar', { user });
+
   return (
     <div className="flex flex-col justify-between h-full overflow-y-scroll bg-white min-w-210 hide-scrollbar">
       <div className="flex flex-col">
@@ -58,7 +62,7 @@ const Sidebar = ({ user, closeToggle }) => {
           to={`user-profile/${user._id}`}
           className="flex items-center gap-2 p-2 mx-3 my-5 mb-3 bg-white rounded-lg shadow-lg"
           onClick={closeToggle}>
-          <UserImage user={user} className="w-10 h-10 rounded-full" />
+          <UserImage src={user.image} className="w-10 h-10 rounded-full" />
           <p>{user.userName}</p>
           <IoIosArrowForward />
         </Link>

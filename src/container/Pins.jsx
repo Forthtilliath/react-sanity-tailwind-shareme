@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { useDebounce } from '../utils/hooks';
 
 import { CreatePin, Feed, Navbar, PinDetail, Search } from '../components';
 
-const Pins = ({ user }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 250);
+const Pins = (navProps) => {
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const debouncedSearchTerm = useDebounce(searchTerm, 250);
 
   return (
     <div className="px-2 md:px-5">
       <div className="bg-gray-50">
-        <Navbar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          user={user}
-        />
+        <Navbar {...navProps} />
       </div>
       <div className="h-full">
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<Feed />} />
           <Route path="/category/:categoryId" element={<Feed />} />
           <Route
@@ -31,7 +27,8 @@ const Pins = ({ user }) => {
             path="/search"
             element={<Search searchTerm={debouncedSearchTerm} />}
           />
-        </Routes>
+        </Routes> */}
+        <Outlet />
       </div>
     </div>
   );

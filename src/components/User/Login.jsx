@@ -2,25 +2,32 @@ import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
+import { ROLES } from '../../utils/constants';
+import { useUserContext } from '../../utils/contexts/UserContext';
+
 import { client } from '../../client';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useUserContext();
 
   const responseGoogle = async (res) => {
-    const decoded = jwt_decode(res.credential);
-    localStorage.setItem('user', JSON.stringify(decoded));
+    const user = jwt_decode(res.credential);
 
-    const { name, sub, picture } = decoded;
+    const { name, sub, picture } = user;
 
     const doc = {
       _id: sub,
       _type: 'user',
       userName: name,
       image: picture,
+      roles: [ROLES.user],
     };
 
-    client.createIfNotExists(doc).then(() => navigate('/', { replace: true }));
+    client.createIfNotExists(doc).then((data) => {
+      login(data);
+      navigate('/', { replace: true });
+    });
   };
 
   return (

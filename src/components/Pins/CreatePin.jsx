@@ -3,8 +3,9 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
+import { useUserContext } from '../../utils/contexts/UserContext';
 import { categories } from '../../utils/data';
-import { wait } from '../../utils/methods';
+import { sleep } from '../../utils/methods';
 
 import { Spinner, UserImage } from '../';
 import { client } from '../../client';
@@ -16,7 +17,7 @@ const initialInputs = {
   category: '',
 };
 
-const CreatePin = ({ user }) => {
+const CreatePin = () => {
   const [inputs, setInputs] = useState(initialInputs);
   const [image, setImage] = useState('');
 
@@ -24,10 +25,10 @@ const CreatePin = ({ user }) => {
   const [error, setError] = useState(false);
   const [wrongImageType, setWrongImageType] = useState(false);
 
+  const { user } = useUserContext();
   const navigate = useNavigate();
 
   const handleChange = ({ target: input }) => {
-    console.log(input);
     setInputs((inputs) => ({
       ...inputs,
       [input.name]: input.value,
@@ -55,7 +56,6 @@ const CreatePin = ({ user }) => {
           filename: selectedFile.name,
         })
         .then((document) => {
-          console.log({ document });
           setImage(document);
           setLoading(false);
         })
@@ -68,7 +68,7 @@ const CreatePin = ({ user }) => {
   const savePin = async () => {
     if (Object.values(inputs).some((input) => input === '') || !image) {
       setError(true);
-      await wait(2000);
+      await sleep(2000);
       setError(false);
       return;
     }
@@ -96,9 +96,11 @@ const CreatePin = ({ user }) => {
   return (
     <div className="flex flex-col items-center justify-center mt-5 lg:h-4/5">
       {error && (
-        <p className="mb-5 text-xl text-red-500 transition-all duration-150 ease-in">
-          Please fill in all the fields
-        </p>
+        <div
+          className="w-4/5 p-4 mb-2 text-red-700 bg-red-100 border-l-4 border-red-500"
+          role="alert">
+          <p>Please fill in all the fields</p>
+        </div>
       )}
       <div className="flex flex-col items-center justify-center w-full p-3 bg-white lg:flex-row lg:p-5 lg:w-4/5">
         <div className="p-3 bg-secondaryColor flex flex-0.7 w-full">
@@ -154,7 +156,7 @@ const CreatePin = ({ user }) => {
           />
           {user && (
             <div className="flex items-center gap-2 my-2 bg-white rounded-lg">
-              <UserImage user={user} className="w-10 h-10 rounded-full" />
+              <UserImage src={user.image} className="w-10 h-10 rounded-full" />
               <p className="font-bold">{user.userName}</p>
             </div>
           )}

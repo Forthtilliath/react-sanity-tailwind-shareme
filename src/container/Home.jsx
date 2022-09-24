@@ -1,27 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
-import { userQuery } from '../utils/data';
-import { fetchUser } from '../utils/fetchUser';
+import { useUserContext } from '../utils/contexts/UserContext';
 import { useEffectOnce, useToggle } from '../utils/hooks';
 
-import { client } from '../client';
-import { Sidebar, UserProfile } from '../components';
-import Pins from './Pins';
+import { Sidebar } from '../components';
 
 const Home = () => {
   const [showSidebar, _toggleSidebar, openSidebar, closeSidebar] = useToggle();
-  const [user, setUser] = useState();
   const scrollRef = useRef();
-
-  const userInfo = fetchUser();
+  const { user } = useUserContext();
 
   useEffectOnce(() => {
-    const query = userQuery(userInfo?.sub);
-    client.fetch(query).then((data) => setUser(data[0]));
-  }, []);
+    // console.log('HOME', { user });
+  }, [user]);
 
   useEffectOnce(() => {
     scrollRef.current.scrollTo(0, 0);
@@ -64,10 +58,7 @@ const Home = () => {
         )}
       </div>
       <div className="flex-1 h-screen pb-2 overflow-y-scroll" ref={scrollRef}>
-        <Routes>
-          <Route path="/user-profile/:userId" element={<UserProfile />} />
-          <Route path="/*" element={<Pins user={user} />} />
-        </Routes>
+        <Outlet />
       </div>
     </div>
   );

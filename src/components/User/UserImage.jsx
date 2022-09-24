@@ -1,13 +1,13 @@
 import React from 'react';
 
-const UserImage = ({ user, ...otherProps }) => {
-  if (!user) {
-    return <p>User not found</p>;
+const UserImage = ({ src, ...otherProps }) => {
+  if (!src) {
+    return <p>Error src</p>;
   }
 
   return (
     <img
-      src={user.image}
+      src={src}
       alt="user-profile"
       referrerPolicy="no-referrer"
       {...otherProps}
