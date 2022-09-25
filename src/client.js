@@ -11,6 +11,8 @@ export const client = sanityClient({
    **/
   useCdn: false,
   token: process.env.REACT_APP_SANITY_TOKEN,
+  // https://www.sanity.io/help/js-client-browser-token
+  ignoreBrowserTokenWarning: true,
 });
 
 const builder = imageUrlBuilder(client);
