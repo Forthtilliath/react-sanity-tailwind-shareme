@@ -202,7 +202,10 @@ const CreatePin = () => {
               <button
                 type="button"
                 onClick={savePin}
-                className="p-2 text-white bg-red-500 rounded-full outline-none font-border-ld w-28">
+                disabled={
+                  Object.values(inputs).some((input) => input === '') || !image
+                }
+                className="p-2 text-white bg-red-500 rounded-full outline-none font-border-ld w-28 disabled:opacity-25">
                 Save Pin
               </button>
             </div>
