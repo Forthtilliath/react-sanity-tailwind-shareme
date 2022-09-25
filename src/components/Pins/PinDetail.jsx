@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { pinDetailMorePinQuery, pinDetailQuery } from '../../utils/data';
-import { useEffectOnce } from '../../utils/hooks';
 
 import { MasonryLayout, Spinner, UserImage } from '../';
 import { client, urlFor } from '../../client';
@@ -33,7 +32,7 @@ const PinDetail = ({ user }) => {
     }
   };
 
-  useEffectOnce(fetchPinDetail, [pinId]);
+  useEffect(fetchPinDetail, [pinId]);
 
   const addComment = () => {
     if (comment) {
