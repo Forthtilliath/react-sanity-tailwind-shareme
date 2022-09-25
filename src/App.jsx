@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { useUserContext } from './utils/contexts/UserContext';
@@ -20,7 +21,7 @@ function App() {
 
   /* It will check if the user is logged in and if not,
   it will redirect to the login page. */
-  useEffectOnce(() => {
+  useEffect(() => {
     if (user === null) navigate('/login');
   }, [user]);
 
