@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import { useUserContext } from '../utils/contexts/UserContext';
 import { useEffectOnce, useToggle } from '../utils/hooks';
@@ -13,11 +13,6 @@ const Home = () => {
   const [showSidebar, _toggleSidebar, openSidebar, closeSidebar] = useToggle();
   const scrollRef = useRef();
   const { user } = useUserContext();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user === null) navigate('/login');
-  }, [user]);
 
   useEffectOnce(() => {
     scrollRef.current.scrollTo(0, 0);
