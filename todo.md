@@ -1,0 +1,14 @@
+- [x] Accessibility pin detail
+- [x] Accessibility profile user : icon logout, toggle created/saves
+- [x] Disable button add pin
+- [x] Add a lot of pins
+- [x] Fix search
+- [ ] Check useToggle and optimize it
+- [ ] Typescript
+- [x] Remove all useEffectOnce
+- [x] Flex full center to grid center
+- [x] Fix modal tab-index
+- [x] Modal escape and enter key
+- [x] useRef for the form
+- [x] Fix active link in sidebar
+- [x] Enter to send comment (when focus)

@@ -1,4 +1,0 @@
-- [ ] Accessibility pin detail
-- [x] Disable button add pin 
-- [ ] Add a lot of pins
-- [x] Fix search

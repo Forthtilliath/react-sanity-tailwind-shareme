@@ -3,18 +3,20 @@ import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
+import { useUserContext } from '../../utils/contexts/UserContext';
 import { pinDetailMorePinQuery, pinDetailQuery } from '../../utils/data';
 
 import { MasonryLayout, Spinner, UserImage } from '../';
 import { client, urlFor } from '../../client';
 
-const PinDetail = ({ user }) => {
+const PinDetail = () => {
   const [pins, setPins] = useState([]);
   const [pinDetail, setPinDetail] = useState('');
   const [comment, setComment] = useState('');
   const [addingComment, setAddingComment] = useState(false);
 
   const { pinId } = useParams();
+  const { user } = useUserContext();
 
   const fetchPinDetail = () => {
     let query = pinDetailQuery(pinId);
@@ -34,7 +36,9 @@ const PinDetail = ({ user }) => {
 
   useEffect(fetchPinDetail, [pinId]);
 
-  const addComment = () => {
+  const addComment = (e) => {
+    e.preventDefault();
+
     if (comment) {
       setAddingComment(true);
 
@@ -60,6 +64,8 @@ const PinDetail = ({ user }) => {
     }
   };
 
+  if (!user) return null;
+
   if (!pinDetail) {
     return <Spinner message="Loading pin..." />;
   }
@@ -79,13 +85,18 @@ const PinDetail = ({ user }) => {
             <div className="flex items-center gap-2">
               <a
                 href={`${pinDetail.image.asset.url}?dl=`}
+                aria-labelledby="download-image"
                 download
                 onClick={(e) => e.stopPropagation()}
-                className="flex items-center justify-center p-2 text-xl bg-white rounded-full outline-none opacity-75 w-9 h-9 text-dark hover:opacity-100 hover:shadow-md">
-                <MdDownloadForOffline />
+                className="grid content-center text-xl bg-white rounded-full outline-none w-9 h-9 hover:shadow-md focus:bg-red-500">
+                <MdDownloadForOffline size={36} />
               </a>
             </div>
-            <a href={pinDetail.destination} target="_blank" rel="noreferrer">
+            <a
+              href={pinDetail.destination}
+              target="_blank"
+              rel="noreferrer"
+              className="outline-none hocus:text-red-500 hocus:underline hocus:decoration-red-500 hocus:decoration-solid">
               {pinDetail.destination}
             </a>
           </div>
@@ -97,7 +108,7 @@ const PinDetail = ({ user }) => {
           </div>
           <Link
             to={`/user-profile/${pinDetail.postedBy?._id}`}
-            className="flex items-center gap-2 mt-5 bg-white rounded-lg">
+            className="flex items-center gap-2 mt-5 bg-white outline-red-500 outline-2 outline-offset-2 rounded-2xl">
             <UserImage
               src={pinDetail.postedBy.image}
               className="object-cover w-8 h-8 rounded-full"
@@ -123,11 +134,13 @@ const PinDetail = ({ user }) => {
               </div>
             ))}
           </div>
-          <div className="flex flex-wrap gap-3 m-6">
-            <Link to={`/user-profile/${pinDetail.postedBy?._id}`}>
+          <form className="flex flex-wrap gap-3 m-6" onSubmit={addComment}>
+            <Link
+              to={`/user-profile/${user._id}`}
+              className="w-10 h-10 rounded-full outline-red-500 outline-2 outline-offset-2">
               <UserImage
-                src={pinDetail.postedBy.image}
-                className="w-10 h-10 rounded-full cursor-pointer"
+                src={user.image}
+                className="w-full h-full rounded-full cursor-pointer"
               />
             </Link>
             <input
@@ -135,16 +148,15 @@ const PinDetail = ({ user }) => {
               placeholder="Add a comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="flex-1 p-2 border-2 border-gray-100 outline-none rounded-2xl focus:border-gray-300"
+              className="flex-1 p-2 border-2 border-gray-100 outline-none rounded-2xl focus:border-red-500"
             />
             <button
-              type="button"
-              onClick={addComment}
+              type="submit"
               disabled={comment === ''}
-              className="px-6 py-2 text-base font-semibold text-white bg-red-500 rounded-full outline-none disabled:opacity-25">
+              className="px-6 py-2 text-base font-semibold text-white bg-red-500 border-2 border-red-500 rounded-full outline-none disabled:opacity-25 focus:border-red-700">
               {addingComment ? 'Posting the comment...' : 'Post'}
             </button>
-          </div>
+          </form>
         </div>
       </div>
       {pins?.length ? (

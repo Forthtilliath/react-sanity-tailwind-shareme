@@ -1,11 +1,10 @@
 import jwt_decode from 'jwt-decode';
 import jwt_encode from 'jwt-encode';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import { client } from '../../client';
 import { LOCALSTORAGE_KEY_USER } from '../constants';
 import { userQuery } from '../data';
-import { useEffectOnce } from '../hooks';
 import { getSeconds } from '../methods';
 
 const UserContext = createContext(null);
@@ -15,7 +14,7 @@ function UserProvider({ children }) {
   const userInfo = userLS ? jwt_decode(userLS) : null;
   const [user, setUser] = useState();
 
-  useEffectOnce(() => {
+  useEffect(() => {
     if (userInfo) {
       const query = userQuery(userInfo._id);
       client.fetch(query).then((data) => {

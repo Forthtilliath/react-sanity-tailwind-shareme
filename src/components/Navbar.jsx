@@ -19,6 +19,7 @@ const Navbar = () => {
         <IoMdSearch fontSize={21} className="ml-1" />
         <input
           type="text"
+          tabIndex={-1}
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
           placeholder="Search"
@@ -29,12 +30,14 @@ const Navbar = () => {
       <div className="flex gap-3">
         <Link
           to={`user-profile/${user._id}`}
-          className="hidden rounded-lg md:block focus-within:outline outline-red-500 outline-2 outline-offset-0">
+          aria-label="Your Profile"
+          className="hidden rounded-lg md:block focus:outline outline-red-500 outline-2 outline-offset-0">
           <UserImage src={user.image} className="h-12 rounded-lg w-14" />
         </Link>
         <Link
           to="create-pin"
-          className="flex items-center justify-center w-12 h-12 text-white bg-black rounded-lg md:w-14 md:h-12 focus-within:outline outline-red-500 outline-2 outline-offset-0">
+          aria-label="Create a Pin"
+          className="flex items-center justify-center w-12 h-12 text-white bg-black rounded-lg md:w-14 md:h-12 focus:outline outline-red-500 outline-2 outline-offset-0">
           <IoMdAdd />
         </Link>
       </div>

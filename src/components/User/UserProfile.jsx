@@ -1,5 +1,6 @@
 import { googleLogout } from '@react-oauth/google';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -9,40 +10,39 @@ import {
   userQuery,
   userSavedPinsQuery,
 } from '../../utils/data';
-import { useEffectOnce } from '../../utils/hooks';
 
 import { MasonryLayout, Spinner, UserImage } from '../';
 import { client } from '../../client';
 
-const activeBtnStyles =
-  'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none';
-const notActiveBtnStyles =
-  'bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none';
-
 const randomImage =
   'https://source.unsplash.com/1600x900/?nature,photograpy,technology';
+
+const states = ['Created', 'Saved'];
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
   const [pins, setPins] = useState([]);
-  const [text, setText] = useState('Created');
-  const [activeBtn, setActiveBtn] = useState('created');
+  const [text, setText] = useState(states[0]);
+  const [activeBtn, setActiveBtn] = useState(states[0]);
   const navigate = useNavigate();
 
   const { userId } = useParams();
 
-  useEffectOnce(() => {
+  useEffect(() => {
     const query = userQuery(userId);
     client.fetch(query).then((data) => setUser(data[0]));
   }, [userId]);
 
-  useEffectOnce(() => {
+  useEffect(() => {
     if (text === 'Created') {
       const createdPinsQuery = userCreatedPinsQuery(userId);
       client.fetch(createdPinsQuery).then((data) => setPins(data));
-    } else {
+      return;
+    }
+    if (text === 'Saved') {
       const savedPinsQuery = userSavedPinsQuery(userId);
       client.fetch(savedPinsQuery).then((data) => setPins(data));
+      return;
     }
   }, [text, userId]);
 
@@ -81,7 +81,8 @@ const UserProfile = () => {
               {userId === user._id && (
                 <button
                   type="button"
-                  className="p-2 bg-white rounded-full shadow-md outline-none cursor-pointer "
+                  aria-label="Log out"
+                  className="p-2 bg-white border-4 border-white rounded-full shadow-md outline-none cursor-pointer hocus:border-red-500"
                   onClick={logout}>
                   <AiOutlineLogout color="red" fontSize={21} />
                 </button>
@@ -89,28 +90,17 @@ const UserProfile = () => {
             </div>
           </div>
           <div className="text-center mb-7">
-            <button
-              type="button"
-              onClick={(e) => {
-                setText(e.target.textContent);
-                setActiveBtn('created');
-              }}
-              className={`${
-                activeBtn === 'created' ? activeBtnStyles : notActiveBtnStyles
-              }`}>
-              Created
-            </button>
-            <button
-              type="button"
-              onClick={(e) => {
-                setText(e.target.textContent);
-                setActiveBtn('saved');
-              }}
-              className={`${
-                activeBtn === 'saved' ? activeBtnStyles : notActiveBtnStyles
-              }`}>
-              Saved
-            </button>
+            {states.map((state) => (
+              <Button
+                key={state}
+                label={state}
+                isActive={activeBtn === state}
+                onClick={(e) => {
+                  setText(e.target.textContent);
+                  setActiveBtn(state);
+                }}
+              />
+            ))}
           </div>
 
           {pins.length ? (
@@ -125,6 +115,31 @@ const UserProfile = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Button = ({ label, isActive, onClick }) => {
+  if (isActive)
+    return (
+      <button
+        key={label}
+        type="button"
+        tabIndex={-1}
+        onClick={onClick}
+        className="w-20 p-2 mx-1 font-bold text-white bg-red-500 rounded-full outline-none">
+        {label}
+      </button>
+    );
+
+  return (
+    <button
+      key={label}
+      type="button"
+      tabIndex={0}
+      onClick={onClick}
+      className="w-20 p-2 mx-1 font-bold text-black border-4 border-transparent rounded-full outline-none hocus:border-red-500 hocus:text-red-500">
+      {label}
+    </button>
   );
 };
 

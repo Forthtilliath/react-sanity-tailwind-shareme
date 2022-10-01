@@ -1,16 +1,12 @@
-import { IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowForward, IoMdSearch } from 'react-icons/io';
 import { RiHomeFill } from 'react-icons/ri';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useUserContext } from '../utils/contexts/UserContext';
 import { categories } from '../utils/data';
 
 import { UserImage } from './';
-
-const isNotActiveStyle =
-  'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize outline-none focus:border-red-500 focus:border-l-8';
-const isActiveStyle =
-  'flex items-center px-5 gap-3 font-extrabold border-r-2 border-black  transition-all duration-200 ease-in-out capitalize outline-none focus:border-red-500 focus:border-l-8';
+import NavLinkMenu from './NavLinkMenu';
 
 const Sidebar = ({ closeToggle }) => {
   const { user } = useUserContext();
@@ -29,32 +25,40 @@ const Sidebar = ({ closeToggle }) => {
           />
         </Link>
         <div className="flex flex-col gap-5">
-          <NavLink
+          <NavLinkMenu
             to="/"
             onClick={closeToggle}
-            className={({ isActive }) =>
-              isActive ? isActiveStyle : isNotActiveStyle
-            }>
+            activeClassName="font-extrabold border-r-2 border-black text-black"
+            className="flex items-center gap-3 px-5 text-gray-500 capitalize transition-all duration-200 ease-in-out outline-none hover:text-black focus:border-l-red-500 focus:border-l-8">
             <RiHomeFill /> Home
-          </NavLink>
+          </NavLinkMenu>
+          <NavLinkMenu
+            to="/search"
+            onClick={closeToggle}
+            activeClassName="font-extrabold border-r-2 border-black text-black"
+            className="flex items-center gap-3 px-5 text-gray-500 capitalize transition-all duration-200 ease-in-out outline-none hover:text-black focus:border-l-red-500 focus:border-l-8">
+            <IoMdSearch /> Search
+          </NavLinkMenu>
           <h3 className="px-5 mt-2 text-base 2xl:text-xl">
             Discover categories
           </h3>
           {categories.slice(0, -1).map((category) => (
-            <NavLink
+            <NavLinkMenu
+              key={category.name}
               to={`/category/${category.name}`}
-              className={({ isActive }) =>
-                isActive ? isActiveStyle : isNotActiveStyle
-              }
               onClick={closeToggle}
-              key={category.name}>
+              activeClassName="font-extrabold border-r-2 border-black text-black"
+              className="flex items-center gap-3 px-5 text-gray-500 capitalize transition-all duration-200 ease-in-out outline-none hover:text-black focus:border-l-red-500 focus:border-l-8">
+              {/* className={({ isActive }) =>
+                isActive ? isActiveStyle : isNotActiveStyle
+              }> */}
               <img
                 src={category.image}
                 className="w-8 h-8 rounded-full shadow-sm"
                 alt="category"
               />
               {category.name}
-            </NavLink>
+            </NavLinkMenu>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRef } from 'react';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs';
@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { ROLES } from '../../utils/constants';
 import { useUserContext } from '../../utils/contexts/UserContext';
-import { useEffectOnce, useToggle } from '../../utils/hooks';
+import { useToggle } from '../../utils/hooks';
 import { removeHttp } from '../../utils/methods';
 
 import { client, urlFor } from '../../client';
@@ -16,7 +16,7 @@ import Confirm from '../Dialog/Confirm';
 import UserImage from '../User/UserImage';
 
 const Pin = ({ pin, setPins }) => {
-  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [savingPost, toggleSavingPost] = useToggle();
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const Pin = ({ pin, setPins }) => {
     postedBy?._id === user?._id ||
     [ROLES.moderator, ROLES.admin].some((role) => user?.roles?.includes(role));
 
-  useEffectOnce(() => {
+  useEffect(() => {
     client.getDocument(_id).then((pin) => setSave(pin.save ?? []));
   }, []);
 
@@ -109,9 +109,10 @@ const Pin = ({ pin, setPins }) => {
     <div className="m-2">
       <div>
         <Confirm
+          aria-labelledby="delete-modal"
           title="Delete Post?"
-          open={confirmOpen}
-          onClose={() => setConfirmOpen(false)}
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
           onConfirm={() => deletePin(_id)}>
           Are you sure you want to delete this pin?
         </Confirm>
@@ -128,9 +129,9 @@ const Pin = ({ pin, setPins }) => {
           alt="user-post"
           src={urlFor(image).width(250).url()}
         />
-        {!confirmOpen && (
+        {!dialogOpen && (
           <div
-            className="absolute top-0 z-50 flex-col justify-between hidden w-full h-full p-1 pt-2 pb-2 pr-2 group-hover:flex group-focus:flex"
+            className="absolute top-0 z-10 flex-col justify-between hidden w-full h-full p-2 group-hover:flex group-focus:flex"
             style={{ height: '100%' }}>
             <div className="flex items-center justify-between">
               <div className="flex gap-2">
@@ -140,7 +141,7 @@ const Pin = ({ pin, setPins }) => {
                   tabIndex={-1}
                   ref={dlRef}
                   onClick={(e) => e.stopPropagation()}
-                  className="flex items-center justify-center p-2 text-xl bg-white rounded-full outline-none opacity-75 w-9 h-9 text-dark hover:opacity-100 hover:shadow-md">
+                  className="grid content-center p-2 text-xl bg-white rounded-full outline-none opacity-75 w-9 h-9 text-dark hover:opacity-100 hover:shadow-md">
                   <MdDownloadForOffline />
                 </a>
               </div>
@@ -150,7 +151,7 @@ const Pin = ({ pin, setPins }) => {
                   tabIndex={-1}
                   ref={saveRef}
                   onClick={(e) => e.stopPropagation()}
-                  className="px-5 py-1 text-base font-bold text-white bg-red-500 outline-none opacity-70 hover:opacity-100 rounded-3xl hover:shadow-md">
+                  className="px-5 py-1 text-base font-bold text-white bg-red-500 outline-none opacity-100 rounded-3xl">
                   {save?.length} Saved
                 </button>
               ) : (
@@ -162,7 +163,7 @@ const Pin = ({ pin, setPins }) => {
                     e.stopPropagation();
                     savePin(_id);
                   }}
-                  className="px-5 py-1 text-base font-bold text-white bg-red-500 rounded-3xl opacity-70 hover:opacity-100-3xl hover:shadow-md outlined-none">
+                  className="px-5 py-1 text-base font-bold text-white bg-red-500 outline-none opacity-70 hover:opacity-100 rounded-3xl hover:shadow-md">
                   {savingPost ? 'Saving' : 'Save'}
                 </button>
               )}
@@ -172,28 +173,32 @@ const Pin = ({ pin, setPins }) => {
                 <a
                   href={destination}
                   tabIndex={-1}
-                  ref={delRef}
+                  ref={linkRef}
                   aria-label="Go to destination"
                   onClick={(e) => e.stopPropagation()}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 p-2 pl-4 pr-4 font-bold text-black bg-white rounded-full opacity-70 hover:opacity-100 hover:shadow-md">
-                  <BsFillArrowUpRightCircleFill />
-                  {shortDestination.length > 12
+                  className="flex items-center gap-2 px-4 py-2 overflow-hidden font-bold text-black bg-white rounded-full opacity-70 hover:opacity-100 hover:shadow-md whitespace-nowrap">
+                  <BsFillArrowUpRightCircleFill width={16} height={16} />
+                  <span className="w-full overflow-hidden text-ellipsis">
+                    {shortDestination}
+                  </span>
+                  {/* {shortDestination.length > 12
                     ? `${shortDestination.slice(0, 12)}...`
-                    : shortDestination}
+                    : shortDestination} */}
                 </a>
               )}
               {canModerate && (
                 <button
                   type="button"
                   tabIndex={-1}
+                  ref={delRef}
                   aria-label="delete"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setConfirmOpen(true);
+                    setDialogOpen(true);
                   }}
-                  className="flex items-center justify-center w-8 h-8 p-2 bg-white rounded-full outline-none opacity-75 text-dark hover:opacity-100">
+                  className="grid content-center w-8 h-8 p-2 bg-white rounded-full outline-none opacity-75 text-dark hover:opacity-100">
                   <AiTwotoneDelete />
                 </button>
               )}
@@ -208,7 +213,7 @@ const Pin = ({ pin, setPins }) => {
           src={postedBy?.image}
           className="object-cover w-8 h-8 rounded-full"
         />
-        <p className="font-semibold capitalize ">{postedBy?.userName}</p>
+        <p className="font-semibold capitalize">{postedBy?.userName}</p>
       </Link>
     </div>
   );

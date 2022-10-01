@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -18,12 +18,20 @@ const initialInputs = {
 };
 
 const CreatePin = () => {
+  /* State of the inputs. */
   const [inputs, setInputs] = useState(initialInputs);
+  /* URL of the image */
   const [image, setImage] = useState('');
-
+  /* Loading for image's upload */
   const [loading, setLoading] = useState(false);
+  /* Error for image's upload or empty input */
   const [error, setError] = useState(false);
   const [wrongImageType, setWrongImageType] = useState(false);
+
+  const hasEmptyInput = useMemo(
+    () => Object.values(inputs).some((input) => input === '') || !image,
+    [inputs, image]
+  );
 
   const { user } = useUserContext();
   const navigate = useNavigate();
@@ -66,7 +74,7 @@ const CreatePin = () => {
   };
 
   const savePin = async () => {
-    if (Object.values(inputs).some((input) => input === '') || !image) {
+    if (hasEmptyInput) {
       setError(true);
       await sleep(2000);
       setError(false);
@@ -202,9 +210,7 @@ const CreatePin = () => {
               <button
                 type="button"
                 onClick={savePin}
-                disabled={
-                  Object.values(inputs).some((input) => input === '') || !image
-                }
+                disabled={hasEmptyInput}
                 className="p-2 text-white bg-red-500 rounded-full outline-none font-border-ld w-28 disabled:opacity-25">
                 Save Pin
               </button>

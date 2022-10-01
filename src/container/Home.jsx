@@ -1,10 +1,10 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useUserContext } from '../utils/contexts/UserContext';
-import { useEffectOnce, useToggle } from '../utils/hooks';
+import { useToggle } from '../utils/hooks';
 
 import { Sidebar } from '../components';
 
@@ -14,7 +14,7 @@ const Home = () => {
   const scrollRef = useRef();
   const { user } = useUserContext();
 
-  useEffectOnce(() => {
+  useEffect(() => {
     scrollRef.current.scrollTo(0, 0);
   });
 
@@ -50,7 +50,7 @@ const Home = () => {
                 onClick={closeSidebar}
               />
             </div>
-            <Sidebar user={user} closeToggle={closeSidebar} />
+            <Sidebar closeToggle={closeSidebar} />
           </div>
         )}
       </div>
