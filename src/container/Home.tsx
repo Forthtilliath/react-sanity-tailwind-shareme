@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import ReactFocusLock from 'react-focus-lock';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { Link, Outlet } from 'react-router-dom';
@@ -46,16 +46,19 @@ const Home = () => {
           </Link>
         </div>
         {showSidebar && (
-          <div className="fixed z-10 w-4/5 h-screen overflow-y-auto bg-white shadow-md animate-slide-in">
+          <ReactFocusLock
+            as="div"
+            className="fixed z-10 w-screen h-screen overflow-y-auto bg-white shadow-md animate-slide-in">
             <div className="absolute top-0 right-0 p-2">
               <AiFillCloseCircle
                 fontSize={30}
-                className="cursor-pointer"
+                className="outline-none cursor-pointer focus:text-red-500"
                 onClick={closeSidebar}
+                tabIndex={0}
               />
             </div>
             <Sidebar closeToggle={closeSidebar} />
-          </div>
+          </ReactFocusLock>
         )}
       </div>
       <div className="flex-1 h-screen pb-2 overflow-y-scroll" ref={scrollRef}>

@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useSearchContext } from '../utils/contexts/SearchContext';
 import { feedQuery, searchQuery } from '../utils/data';
+import { useLoading } from '../utils/hooks';
 
 import { MasonryLayout, Spinner } from '.';
 import { TPin } from '../@types';
@@ -11,18 +12,18 @@ import { client } from '../client';
 
 const Search: FunctionComponent<{}> = () => {
   const [pins, setPins] = useState<TPin[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading(false);
   const { debouncedSearchTerm } = useSearchContext();
 
   useEffect(() => {
-    setLoading(true);
+    startLoading();
     const query = debouncedSearchTerm
       ? searchQuery(debouncedSearchTerm.toLowerCase())
       : feedQuery();
 
     client.fetch(query).then((data) => {
       setPins(data);
-      setLoading(false);
+      stopLoading();
     });
   }, [debouncedSearchTerm]);
 

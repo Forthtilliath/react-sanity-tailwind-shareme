@@ -1,5 +1,5 @@
 import React from 'react';
-import FocusLock from 'react-focus-lock';
+import ReactFocusLock from 'react-focus-lock';
 import { MdClose } from 'react-icons/md';
 
 import { DialogType } from '../../@types';
@@ -16,7 +16,7 @@ const Dialog: DialogType = ({ open, onClose, children }) => {
       <OutsideClickHandler
         onOutsideClick={onClose}
         className="grid content-center w-full h-full">
-        <FocusLock>
+        <ReactFocusLock>
           <div className="fixed flex flex-col justify-end w-full max-w-md p-8 m-auto align-top bg-white shadow-inner md:relative md:justify-center md:rounded md:h-auto md:shadow">
             <div>{children}</div>
             <span className="absolute top-0 right-0 p-4">
@@ -25,7 +25,7 @@ const Dialog: DialogType = ({ open, onClose, children }) => {
               </Button>
             </span>
           </div>
-        </FocusLock>
+        </ReactFocusLock>
       </OutsideClickHandler>
     </div>
   );

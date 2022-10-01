@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useUserContext } from '../../utils/contexts/UserContext';
 import { categories } from '../../utils/data';
+import { useLoading, useToggle } from '../../utils/hooks';
 import { sleep } from '../../utils/methods';
 
 import { Spinner, UserImage } from '..';
@@ -25,10 +26,14 @@ const CreatePin = () => {
   /* URL of the image */
   const [image, setImage] = useState<SanityImageAssetDocument | null>(null);
   /* Loading for image's upload */
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading(false);
   /* Error for image's upload or empty input */
-  const [error, setError] = useState(false);
-  const [wrongImageType, setWrongImageType] = useState(false);
+  const { value: error, toggle: toggleError } = useToggle();
+  const {
+    value: wrongImageType,
+    setTrue: setHasWrongImageType,
+    setFalse: setNotWrongImageType,
+  } = useToggle();
 
   const hasEmptyInput = useMemo(
     () => Object.values(inputs).some((input) => input === '') || !image,
@@ -64,8 +69,8 @@ const CreatePin = () => {
     ];
 
     if (authorizedTypes.includes(selectedFile.type)) {
-      setWrongImageType(false);
-      setLoading(true);
+      setNotWrongImageType();
+      startLoading();
 
       client.assets
         .upload('image', selectedFile, {
@@ -74,11 +79,11 @@ const CreatePin = () => {
         })
         .then((document) => {
           setImage(document);
-          setLoading(false);
+          stopLoading();
         })
         .catch((error) => console.log('Image uplod error', error));
     } else {
-      setWrongImageType(true);
+      setHasWrongImageType();
     }
   };
 
@@ -86,9 +91,9 @@ const CreatePin = () => {
     if (!user) return;
 
     if (hasEmptyInput) {
-      setError(true);
+      toggleError();
       await sleep(2000);
-      setError(false);
+      toggleError();
       return;
     }
 

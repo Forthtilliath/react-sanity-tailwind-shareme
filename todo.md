@@ -3,7 +3,7 @@
 - [x] Disable button add pin
 - [x] Add a lot of pins
 - [x] Fix search
-- [ ] Check useToggle and optimize it
+- [x] Check useToggle and optimize it
 - [x] Typescript
 - [x] Remove all useEffectOnce
 - [x] Flex full center to grid center

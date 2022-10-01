@@ -17,8 +17,16 @@ import Confirm from '../Dialog/Confirm';
 import UserImage from '../User/UserImage';
 
 const Pin: PinType = ({ pin, setPins }) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const { value: savingPost, toggle: toggleSavingPost } = useToggle();
+  const {
+    value: stateDialog,
+    setTrue: openDialog,
+    setFalse: closeDialog,
+  } = useToggle(false);
+  const {
+    value: savingPost,
+    setTrue: startSavingPost,
+    setFalse: endSavingPost,
+  } = useToggle();
   const navigate = useNavigate();
 
   const { _id, postedBy, image, destination } = pin;
@@ -51,7 +59,7 @@ const Pin: PinType = ({ pin, setPins }) => {
     if (!user) return;
 
     if (!alreadySaved) {
-      toggleSavingPost();
+      startSavingPost();
 
       client
         .patch(id)
@@ -69,7 +77,7 @@ const Pin: PinType = ({ pin, setPins }) => {
         .commit()
         .then((pinUpdated) => {
           setSave(pinUpdated.save);
-          toggleSavingPost();
+          endSavingPost();
         });
     }
   };
@@ -112,8 +120,8 @@ const Pin: PinType = ({ pin, setPins }) => {
         <Confirm
           aria-labelledby="delete-modal"
           title="Delete Post?"
-          open={dialogOpen}
-          onClose={() => setDialogOpen(false)}
+          open={stateDialog}
+          onClose={closeDialog}
           onConfirm={() => deletePin(_id)}>
           Are you sure you want to delete this pin?
         </Confirm>
@@ -130,7 +138,7 @@ const Pin: PinType = ({ pin, setPins }) => {
           alt="user-post"
           src={urlFor(image).width(250).url()}
         />
-        {!dialogOpen && (
+        {!stateDialog && (
           <div
             className="absolute top-0 z-10 flex-col justify-between hidden w-full h-full p-2 group-hover:flex group-focus:flex"
             style={{ height: '100%' }}>
@@ -194,7 +202,7 @@ const Pin: PinType = ({ pin, setPins }) => {
                   aria-label="delete"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setDialogOpen(true);
+                    openDialog();
                   }}
                   className="grid content-center w-8 h-8 p-2 bg-white rounded-full outline-none opacity-75 text-dark hover:opacity-100">
                   <AiTwotoneDelete />

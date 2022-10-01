@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useUserContext } from '../../utils/contexts/UserContext';
 import { pinDetailMorePinQuery, pinDetailQuery } from '../../utils/data';
+import { useLoading } from '../../utils/hooks';
 
 import { MasonryLayout, Spinner, UserImage } from '..';
 import { TPin } from '../../@types';
@@ -15,7 +16,11 @@ const PinDetail = () => {
   const [pins, setPins] = useState<TPin[]>([]);
   const [pinDetail, setPinDetail] = useState<TPin | null>(null);
   const [comment, setComment] = useState('');
-  const [addingComment, setAddingComment] = useState(false);
+  const {
+    loading: addingComment,
+    startLoading,
+    stopLoading,
+  } = useLoading(false);
 
   const { pinId } = useParams();
   const { user } = useUserContext();
@@ -46,7 +51,7 @@ const PinDetail = () => {
     if (!user || !pinId) return;
 
     if (comment) {
-      setAddingComment(true);
+      startLoading();
 
       client
         .patch(pinId)
@@ -65,7 +70,7 @@ const PinDetail = () => {
         .then(() => {
           fetchPinDetail();
           setComment('');
-          setAddingComment(false);
+          stopLoading();
         });
     }
   };
