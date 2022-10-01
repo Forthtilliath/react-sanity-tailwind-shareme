@@ -4,7 +4,7 @@
 - [x] Add a lot of pins
 - [x] Fix search
 - [ ] Check useToggle and optimize it
-- [ ] Typescript
+- [x] Typescript
 - [x] Remove all useEffectOnce
 - [x] Flex full center to grid center
 - [x] Fix modal tab-index
