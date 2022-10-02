@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useSearchContext } from '../utils/contexts/SearchContext';
 import { useUserContext } from '../utils/contexts/UserContext';
+import { useRouter } from '../utils/hooks';
 
 import { UserImage } from '.';
 
@@ -11,6 +12,7 @@ const Navbar = () => {
   const { searchTerm, setSearchTerm } = useSearchContext();
   const { user } = useUserContext();
   const navigate = useNavigate();
+  let { pathname } = useRouter();
 
   if (!user) return null;
 
@@ -20,7 +22,8 @@ const Navbar = () => {
         <IoMdSearch fontSize={21} className="ml-1" />
         <input
           type="text"
-          tabIndex={-1}
+          // Tab only works in search route ! To not be redirected on focus
+          tabIndex={'/search' === pathname ? 0 : -1}
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
           placeholder="Search"
