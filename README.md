@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# Liste des améliorations apportées
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Sur l'ensemble du projet
+- [x] **Ajout d'un contexte `user`**. Afin d'éviter d'avoir à passer des props d'un composant à un autre, j'ai préféré ajouter un contexte pour gérer l'utilisateur connecté. Par la même occasion, ca permet d'alléger le code de certains composants pour regrouper tout ce qui est lié à la connexion ou la récupération de l'utilisateur dans la db.
 
-## Available Scripts
+- [x] **Ajout d'un contexte `search`**. Même avantage que pour user, search étant liés à plusieurs composants, il était plus simple d'en faire un contexte.
 
-In the project directory, you can run:
+- [x] **Ajout de beaucoup d'accessibilité**. Que soit au niveau de la tabulation ou des aria-labels, j'ai taché d'ajouter un maximum d'accessibilité.
+A commencé par le hover des pins, il était essentiel de rendre cela possible à l'aide de la tabulation. Ainsi, une fois sur le pin, il est possible d'interagir avec les fonctionnalités sur celui-ci : `D` permet de télécharger l'image, `L` permet d'aller vers la destination, `S` permet de sauvegarder le pin dans ses favoris et enfin `R` permet de le supprimer.
+Un problème lié à la tabulation a été rencontré. Lorsque l'utilisateur met le focus sur le champ de recherche, celui-ci est redirigé vers la page `/search`. Le champ étant en haut, un utilisateur navigant à l'aide de la tabulation était redirigé vers `/search` en permanance. Il a donc été utile d'ajouter `/search` dans la sidebar et de retirer l'accès au champ à l'aide de la tabulation lorsque l'utilisateur n'est pas sur `/search`.
 
-### `npm start`
+- [x] **Regroupement des routes dans App**. Avoir des routes partout dans son projet est quelque chose que je ne trouve pas pratique. On s'y perd vite, et lors d'une redirection non désirée, on peut vite ne pas comprendre ce qu'il se passe. Avoir toutes les routes permet d'avoir une vue d'ensemble sur la navigation à travers les routes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [x] **Routes comme active dans la sidebar**. Toutes les routes, hormis login, se trouve en dessous de `Home`. Cela avait pour conséquence que `Home` était considérée comme la route active sur l'ensemble du site. Il a donc été nécessaire d'ajouter un composant pour gérer correctement la route active.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Route /login
 
-### `npm test`
+- [x] **Sécurité le localstorage**. Au début du projet, tous les données reçues par google suite à la connexion d'un utilisateur étaient stockées en clair dans le localstorage. Il était tout à fait possible de modifier son id par celui d'un autre utilisateur, ce qui permettait de poster des messages sous un autre nom, voir de supprimer les messsages d'autres utilisateurs.
+A présent, les données sont stockées dans un json web token !
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [x] **Ajout de rôles**. Afin de pouvoir modérer un minimum, j'ai ajouté un système de rôles. Un nouvel utilisateur obtient naturellement le rôle ``role_user``. Deux rôles supplémentaires ont été ajouté ``role_moderator`` et ``role_admin``, uniquement ajoutable via la db. Un modérateur ou un admin peut à présent supprimer le pin de n'importe quel autre utilisateur.
 
-### `npm run build`
+- [ ] **Modérer les commentaires**. Il aurait tout à fait été possible d'ajouter les modérations des commentaires. Contairement aux pins, les commentaires ne sont de base pas supprimable, même par le posteur. Je n'ai donc pas souhaité ajouter cette fonctionnalité.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [ ] **Vérifier un token expiré**. J'ai ajouté la date de création du token dans le contenu de la variable cryptée du localstorage. De plus, j'ai fait en sorte d'ajouter une date d'expiration. Il aurait été possible de gérer cela à la connexion de l'utilisateur. Si le token est expiré, on le supprime et on le redige vers la page de connexion.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Composant Pin
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [x] **Optimisation du hover**. Le hover était géré à l'aide des événements ``onMouseEnter`` et ``onMouseLeave``. J'ai préféré passer par tailwind pour gérer cela à l'aide de la classe `group`.
 
-### `npm run eject`
+- [x] **Affichage de la destination**. L'affichage était géré par js. Si la destination était trop longue, celle-ci était tronquée, ne rendant cela pas réellement plus lisible. Ce qui compte dans la destination, c'est le nom du site. J'ai donc commencé par retirer le protocol. Ensuite, via tailwind et ellipsis, le tour était joué.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [x] **Ajout d'un modal avant de supprimer un pin**. Une fausse manip est si vite arrivé. L'ajout d'un modal pour confirmer son choix était donc important.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [x] **Désactivation des boutons**. Sur les formulaires de création de pin et de création de commentaire, il me semblait utile de désactiver les boutons permettant de valider le formulaire, afin de montrer que ce dernier n'était pas valide.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [x] **Retrait des rechargements de la page**. Il me semble important, sur React d'autant plus, d'éviter de rafraichir la page lors d'un ajout ou d'une suppression d'un élément.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Petit plus
 
-## Learn More
+- [x] **A lot of modifications**. Que cela soit au niveau de la gestion des classes si un élément est actif ou non, de l'ajout d'un composant pour afficher correctement l'image d'un utilisateur (car souvent durant le projet, google m'envoyait un erreur 403), l'ajout de hook personnalisé, de nombreuses autres modifications ont été apportées.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [x] **Typescript**. Passage en totalité du projet en ``Typescript``.
