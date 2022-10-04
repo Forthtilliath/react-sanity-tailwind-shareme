@@ -4,6 +4,8 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { Link, Outlet } from 'react-router-dom';
 
+import ScrollToTop from '../components/ScrollToTopByRef';
+
 import { useUserContext } from '../utils/contexts/UserContext';
 import { useToggle } from '../utils/hooks';
 
@@ -62,6 +64,7 @@ const Home = () => {
         )}
       </div>
       <div className="flex-1 h-screen pb-2 overflow-y-scroll" ref={scrollRef}>
+        <ScrollToTop smooth scrollRef={scrollRef} />
         <Outlet />
       </div>
     </div>

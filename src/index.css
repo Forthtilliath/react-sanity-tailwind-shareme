@@ -2,10 +2,13 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-body {
-  font-family: 'Lato', sans-serif;
-}
-
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* For IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

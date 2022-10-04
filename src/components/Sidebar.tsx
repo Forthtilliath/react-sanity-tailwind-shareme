@@ -61,16 +61,6 @@ const Sidebar: SidebarType = ({ closeToggle }) => {
           ))}
         </div>
       </div>
-      {user && (
-        <Link
-          to={`user-profile/${user._id}`}
-          className="flex items-center gap-2 p-2 mx-3 my-5 mb-3 bg-white rounded-lg shadow-lg outline-red-500 outline-2"
-          onClick={closeToggle}>
-          <UserImage src={user.image} className="w-10 h-10 rounded-full" />
-          <p>{user.userName}</p>
-          <IoIosArrowForward />
-        </Link>
-      )}
     </div>
   );
 };

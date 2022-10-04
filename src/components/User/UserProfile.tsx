@@ -78,7 +78,7 @@ const UserProfile = () => {
             <h1 className="mt-3 text-3xl font-bold text-center">
               {user.userName}
             </h1>
-            <div className="absolute top-0 right-0 p-2 z-1">
+            <div className="absolute top-0 right-0 z-10 p-2">
               {userId === user._id && (
                 <button
                   type="button"

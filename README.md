@@ -1,5 +1,12 @@
-# Liste des améliorations apportées
+# Dépendances
 
+[![@react-oauth/google](https://img.shields.io/badge/%40react--oauth%2Fgoogle-0.2.6-brightgreen)](https://www.npmjs.com/package/@react-oauth/google) [![@sanity/client](https://img.shields.io/badge/%40sanity%2Fclient-3.4.1-brightgreen)](https://www.npmjs.com/package/@sanity/client) [![@sanity/image-url](https://img.shields.io/badge/%40sanity%2Fimage--url-1.0.1-brightgreen)](https://www.npmjs.com/package/@sanity/image-url) [![jwt-decode](https://img.shields.io/badge/jwt--decode-3.1.2-brightgreen)](https://www.npmjs.com/package/jwt-decode) [![jwt-encode](https://img.shields.io/badge/jwt--encode-1.0.1-brightgreen)](https://www.npmjs.com/package/jwt-encode) [![query-string](https://img.shields.io/badge/query--string-7.1.1-brightgreen)](https://www.npmjs.com/package/query-string) [![react](https://img.shields.io/badge/react-18.2.0-brightgreen)](https://www.npmjs.com/package/react) [![react-dom](https://img.shields.io/badge/react--dom-18.2.0-brightgreen)](https://www.npmjs.com/package/react-dom) [![react-focus-lock](https://img.shields.io/badge/react--focus--lock-2.9.1-brightgreen)](https://www.npmjs.com/package/react-focus-lock) [![react-icons](https://img.shields.io/badge/react--icons-4.4.0-brightgreen)](https://www.npmjs.com/package/react-icons) [![react-loader-spinner](https://img.shields.io/badge/react--loader--spinner-5.3.4-brightgreen)](https://www.npmjs.com/package/react-loader-spinner) [![react-masonry-css](https://img.shields.io/badge/react--masonry--css-1.0.16-brightgreen)](https://www.npmjs.com/package/react-masonry-css) [![react-modal](https://img.shields.io/badge/react--modal-3.15.1-brightgreen)](https://www.npmjs.com/package/react-modal) [![react-router-dom](https://img.shields.io/badge/react--router--dom-6.4.0-brightgreen)](https://www.npmjs.com/package/react-router-dom) [![react-scripts](https://img.shields.io/badge/react--scripts-5.0.1-brightgreen)](https://www.npmjs.com/package/react-scripts) [![react-scroll-to-top](https://img.shields.io/badge/react--scroll--to--top-3.0.0-brightgreen)](https://www.npmjs.com/package/react-scroll-to-top) [![tailwind-merge](https://img.shields.io/badge/tailwind--merge-1.1.1-brightgreen)](https://www.npmjs.com/package/tailwind-merge) [![uuid](https://img.shields.io/badge/uuid-9.0.0-brightgreen)](https://www.npmjs.com/package/uuid)
+
+# Explication du projet
+
+Le projet a été initié à partir de cette vidéo youtube : https://www.youtube.com/watch?v=1RHDhtbqo94. Il permet de réaliser un site à l'aide de Réact et de Sanity.
+
+# Liste des améliorations apportées
 ### Sur l'ensemble du projet
 - [x] **Ajout d'un contexte `user`**. Afin d'éviter d'avoir à passer des props d'un composant à un autre, j'ai préféré ajouter un contexte pour gérer l'utilisateur connecté. Par la même occasion, ca permet d'alléger le code de certains composants pour regrouper tout ce qui est lié à la connexion ou la récupération de l'utilisateur dans la db.
 
@@ -13,6 +20,7 @@ Un problème lié à la tabulation a été rencontré. Lorsque l'utilisateur met
 
 - [x] **Routes comme active dans la sidebar**. Toutes les routes, hormis login, se trouve en dessous de `Home`. Cela avait pour conséquence que `Home` était considérée comme la route active sur l'ensemble du site. Il a donc été nécessaire d'ajouter un composant pour gérer correctement la route active.
 
+- [ ] **Afficher les raccourcis**. Lorsqu'un pin a le focus, comme dit précédemment, j'ai mis en place des raccourcis. Toutefois, l'utilisateur n'en a pas forcement connaissance. Ajouter une sorte de tooltip serait un vrai plus pour l'accessibilité.
 ### Route /login
 
 - [x] **Sécurité le localstorage**. Au début du projet, tous les données reçues par google suite à la connexion d'un utilisateur étaient stockées en clair dans le localstorage. Il était tout à fait possible de modifier son id par celui d'un autre utilisateur, ce qui permettait de poster des messages sous un autre nom, voir de supprimer les messsages d'autres utilisateurs.

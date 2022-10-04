@@ -115,7 +115,7 @@ const Pin: PinType = ({ pin, setPins }) => {
   };
 
   return (
-    <div className="m-2">
+    <div className="m-2 mb-4">
       <div>
         <Confirm
           aria-labelledby="delete-modal"

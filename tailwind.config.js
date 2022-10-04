@@ -87,6 +87,9 @@ module.exports = {
       'zoom-in': 'zoom-in',
       'pointer': 'pointer',
     },
+    fontFamily: {
+      lato: ['Lato', 'sans-serif'],
+    },
   },
   variants: {
     // backgroundColor: ['active'],

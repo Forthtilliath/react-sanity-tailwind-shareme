@@ -41,7 +41,7 @@ const Navbar = () => {
         <Link
           to="create-pin"
           aria-label="Create a Pin"
-          className="flex items-center justify-center w-12 h-12 text-white bg-black rounded-lg md:w-14 md:h-12 focus:outline outline-red-500 outline-2 outline-offset-0">
+          className="flex items-center justify-center w-12 h-12 text-white bg-red-500 rounded-lg md:w-14 md:h-12 focus:outline outline-red-500 outline-2 outline-offset-0">
           <IoMdAdd />
         </Link>
       </div>
