@@ -3,46 +3,68 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { LOCALSTORAGE_KEY_USER } from '../../utils/constants';
-import {
-  userCreatedPinsQuery,
-  userQuery,
-  userSavedPinsQuery,
-} from '../../utils/data';
+import { AttentionIcon, DeleteIcon } from 'components/Icons';
 
-import { MasonryLayout, Spinner, UserImage } from '..';
-import { TPin, TUserDB, UserProfileButtonType } from '../../@types';
-import { client } from '../../client';
+import { useConfirm } from 'utils/contexts/ConfirmContext';
+import useUser from 'utils/hooks/useUser';
+import {
+  fetchUser,
+  fetchUserCreatedPins,
+  fetchUserSavedPins,
+} from 'utils/queries';
+
+import { TPin, TUserDB, UserProfileButtonType } from '../@types';
+import { MasonryLayout, Spinner, UserImage } from '../components';
+import { LOCALSTORAGE_KEY_USER } from '../utils/constants';
 
 const randomImage =
   'https://source.unsplash.com/1600x900/?nature,photograpy,technology';
 
 const states = ['Created', 'Saved'];
 
+const confirmOptions = {
+  title: 'Deactivate account',
+  message:
+    'Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.',
+  confirm: 'Deactivate',
+};
+
 const UserProfile = () => {
-  const [user, setUser] = useState<TUserDB | null>(null);
+  // const [user, setUser] = useState<TUserDB | null>(null);
   const [pins, setPins] = useState<TPin[]>([]);
   const [activeBtn, setActiveBtn] = useState(states[0]);
   const navigate = useNavigate();
 
   const { userId } = useParams();
+  const { confirm } = useConfirm();
+
+  // TODO useUser (useQuery)
+  // const {
+  //   isLoading,
+  //   error,
+  //   data: user,
+  // } = useUser<string | undefined, TUserDB>(userId);
+  // if (!userId) return null;
+
+  const { isLoading, error, data: user } = useUser({ userId });
+
+  // useEffect(() => {
+  //   if (!userId) return;
+
+  //   fetchUser(userId).then(setUser);
+  // }, [userId]);
+  console.log({ user });
 
   useEffect(() => {
     if (!userId) return;
-    const query = userQuery(userId);
-    client.fetch(query).then((data) => setUser(data[0]));
-  }, [userId]);
 
-  useEffect(() => {
-    if (!userId) return;
     if (activeBtn === 'Created') {
-      const createdPinsQuery = userCreatedPinsQuery(userId);
-      client.fetch(createdPinsQuery).then((data) => setPins(data));
+      fetchUserCreatedPins(userId).then(setPins);
       return;
     }
+
     if (activeBtn === 'Saved') {
-      const savedPinsQuery = userSavedPinsQuery(userId);
-      client.fetch(savedPinsQuery).then((data) => setPins(data));
+      fetchUserSavedPins(userId).then(setPins);
       return;
     }
   }, [activeBtn, userId]);
@@ -61,6 +83,21 @@ const UserProfile = () => {
     return <Spinner message="Loading profile..." />;
   }
 
+  if (isLoading) {
+    return <Spinner message="Loading profile..." />;
+  }
+
+  if (error) {
+    return <Spinner message="Error..." />;
+  }
+
+  const handleRemoveAccount = async () => {
+    if (await confirm(confirmOptions)) {
+      //remove the account
+      console.log('Remove');
+    }
+  };
+
   return (
     <div className="relative items-center justify-center h-full pb-2">
       <div className="flex flex-col pb-5">
@@ -71,10 +108,19 @@ const UserProfile = () => {
               alt="banner"
               className="object-cover w-full shadow-lg h-370 2xl:h-510"
             />
-            <UserImage
-              src={user.image}
-              className="object-cover w-20 h-20 -mt-10 rounded-full shadow-xl"
-            />
+            <div className="relative w-full">
+              <UserImage
+                src={user.image}
+                className="object-cover w-20 h-20 mx-auto -mt-10 rounded-full shadow-xl"
+              />
+              <button
+                type="button"
+                onClick={handleRemoveAccount}
+                aria-label="Delete account"
+                className="absolute grid top-1 right-1 place-content-center">
+                <DeleteIcon className="w-12 h-12 text-red-500 hover:text-red-700 hover:scale-110" />
+              </button>
+            </div>
             <h1 className="mt-3 text-3xl font-bold text-center">
               {user.userName}
             </h1>

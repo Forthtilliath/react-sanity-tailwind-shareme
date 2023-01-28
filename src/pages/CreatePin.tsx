@@ -5,13 +5,14 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
-import { useUserContext } from '../../utils/contexts/UserContext';
-import { categories } from '../../utils/data';
-import { useLoading, useToggle } from '../../utils/hooks';
-import { sleep } from '../../utils/methods';
+import { createPin } from 'utils/queries';
 
-import { Spinner, UserImage } from '..';
-import { client } from '../../client';
+import { Spinner, UserImage } from '../components';
+import { client } from '../sanityClient';
+import { useUserContext } from '../utils/contexts/UserContext';
+import { categories } from '../utils/data';
+import { useLoading, useToggle } from '../utils/hooks';
+import { sleep } from '../utils/methods';
 
 const initialInputs = {
   title: '',
@@ -29,11 +30,7 @@ const CreatePin = () => {
   const { loading, startLoading, stopLoading } = useLoading(false);
   /* Error for image's upload or empty input */
   const { value: error, toggle: toggleError } = useToggle();
-  const {
-    value: wrongImageType,
-    setTrue: setHasWrongImageType,
-    setFalse: setNotWrongImageType,
-  } = useToggle();
+  const [wrongImageType, setWrongImageType] = useState(false);
 
   const hasEmptyInput = useMemo(
     () => Object.values(inputs).some((input) => input === '') || !image,
@@ -69,21 +66,15 @@ const CreatePin = () => {
     ];
 
     if (authorizedTypes.includes(selectedFile.type)) {
-      setNotWrongImageType();
+      setWrongImageType(false);
       startLoading();
 
-      client.assets
-        .upload('image', selectedFile, {
-          contentType: selectedFile.type,
-          filename: selectedFile.name,
-        })
-        .then((document) => {
-          setImage(document);
-          stopLoading();
-        })
-        .catch((error) => console.log('Image uplod error', error));
+      createPin(selectedFile)
+        .then(setImage)
+        .catch((error) => console.log('Image uplod error', error))
+        .finally(stopLoading);
     } else {
-      setHasWrongImageType();
+      setWrongImageType(true);
     }
   };
 
@@ -175,8 +166,8 @@ const CreatePin = () => {
             name="title"
             value={inputs.title}
             onChange={handleChange}
-            placeholder="Add your title here"
-            className="p-2 text-2xl font-bold border-b-2 border-gray-200 outline-none sm:text-3xl"
+            placeholder="Add your title here*"
+            className="p-2 text-2xl font-bold border-b-2 border-gray-200 outline-none sm:text-3xl focus:border-red-500"
           />
           {user && (
             <div className="flex items-center gap-2 my-2 bg-white rounded-lg">
@@ -189,28 +180,28 @@ const CreatePin = () => {
             name="about"
             value={inputs.about}
             onChange={handleChange}
-            placeholder="What is your pin about"
-            className="p-2 outline-none border-gr ay-200 text-baseborder-b-2 sm:text-lg"
+            placeholder="What is your pin about*"
+            className="p-2 text-base border-b-2 border-gray-200 outline-none sm:text-lg focus:border-red-500"
           />
           <input
             type="text"
             name="destination"
             value={inputs.destination}
             onChange={handleChange}
-            placeholder="Add a destination link"
-            className="p-2 outline-none border-gr ay-200 text-baseborder-b-2 sm:text-lg"
+            placeholder="Add a destination link*"
+            className="p-2 text-base border-b-2 border-gray-200 outline-none sm:text-lg focus:border-red-500"
           />
           <div className="flex flex-col">
             <div>
               <p className="mb-2 text-lg font-semibold sm:text-xl">
-                Choose Pin Category
+                Choose Pin Category*
               </p>
               <select
                 name="category"
                 onChange={handleChange}
-                className="w-4/5 p-2 text-base border-b-2 border-gray-200 rounded-md outline-none cursor-pointer">
+                className="w-4/5 p-2 text-base border-b-2 border-gray-200 rounded-md outline-none cursor-pointer focus:border-red-500">
                 <option value="" className="bg-white">
-                  Select Category
+                  -- No category selected --
                 </option>
                 {categories.map((categorie) => (
                   <option

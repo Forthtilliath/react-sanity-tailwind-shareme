@@ -3,16 +3,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
-import { useRouter } from '../utils/hooks/useRouter';
-
-import { NavLinkMenuType } from '../@types';
+import { NavLinkMenuType } from '../../@types';
+import { useRouter } from '../../utils/hooks/useRouter';
 
 /**
  * NavLink with fonctional active state. Mostly usefull on links to parent routes (cf '/')
  * @property **className** Classes of the NavLink
  * @property **activeClassName** Classes to add to the NavLink when the link is active
  */
-const NavLinkMenu: NavLinkMenuType = ({
+const NavLinkMenuItem: NavLinkMenuType = ({
   className: defaultClassName = '',
   activeClassName = '',
   to,
@@ -21,11 +20,12 @@ const NavLinkMenu: NavLinkMenuType = ({
   removeFocusOnClick = false,
   ...otherProps
 }) => {
-  let { pathname } = useRouter();
+  // let { pathname } = useRouter();
+  let pathname = '/';
   const aRef = useRef<HTMLAnchorElement>(null);
 
   if (!to) {
-    throw new Error('to must have `to` property');
+    throw new Error('You must have `to` property');
   }
 
   const isActive = to === pathname;
@@ -51,4 +51,4 @@ const NavLinkMenu: NavLinkMenuType = ({
   );
 };
 
-export default NavLinkMenu;
+export default NavLinkMenuItem;

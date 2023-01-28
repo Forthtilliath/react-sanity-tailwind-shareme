@@ -2,8 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 
 import { ConfirmType } from '../../@types';
-import Button from './Button';
-import Dialog from './Dialog';
+import { Button, Dialog } from './';
 
 const Confirm: ConfirmType = ({
   open,

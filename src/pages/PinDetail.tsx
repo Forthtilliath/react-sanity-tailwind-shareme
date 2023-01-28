@@ -4,13 +4,12 @@ import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useUserContext } from '../../utils/contexts/UserContext';
-import { pinDetailMorePinQuery, pinDetailQuery } from '../../utils/data';
-import { useLoading } from '../../utils/hooks';
-
-import { MasonryLayout, Spinner, UserImage } from '..';
-import { TPin } from '../../@types';
-import { client, urlFor } from '../../client';
+import { TPin } from '../@types';
+import { MasonryLayout, Spinner, UserImage } from '../components';
+import { client, urlFor } from '../sanityClient';
+import { useUserContext } from '../utils/contexts/UserContext';
+import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/data';
+import { useLoading } from '../utils/hooks';
 
 const PinDetail = () => {
   const [pins, setPins] = useState<TPin[]>([]);

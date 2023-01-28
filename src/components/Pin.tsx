@@ -6,15 +6,14 @@ import { MdDownloadForOffline } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ROLES } from '../../utils/constants';
-import { useUserContext } from '../../utils/contexts/UserContext';
-import { useToggle } from '../../utils/hooks';
-import { removeHttp } from '../../utils/methods';
-
-import { PinType } from '../../@types';
-import { client, urlFor } from '../../client';
-import Confirm from '../Dialog/Confirm';
-import UserImage from '../User/UserImage';
+import { PinType, TPin } from '../@types';
+import { client, urlFor } from '../sanityClient';
+import { ROLES } from '../utils/constants';
+import { useUserContext } from '../utils/contexts/UserContext';
+import { useToggle } from '../utils/hooks';
+import { removeHttp } from '../utils/methods';
+import UserImage from './UserImage';
+import Confirm from './dialog/Confirm';
 
 const Pin: PinType = ({ pin, setPins }) => {
   const {
@@ -87,7 +86,9 @@ const Pin: PinType = ({ pin, setPins }) => {
 
     client.delete(id).then((transaction) => {
       if (transaction.results.length) {
-        setPins((pins) => pins.filter((pin) => pin._id !== id));
+        // TODO Fix setPins later
+        // setPins((pins) => pins.filter((pin) => pin._id !== id));
+        setPins((pins: TPin[]) => pins.filter((pin) => pin._id !== id));
       }
     });
   };

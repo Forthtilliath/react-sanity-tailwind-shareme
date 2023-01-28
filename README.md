@@ -48,4 +48,6 @@ A présent, les données sont stockées dans un json web token !
 
 - [x] **A lot of modifications**. Que cela soit au niveau de la gestion des classes si un élément est actif ou non, de l'ajout d'un composant pour afficher correctement l'image d'un utilisateur (car souvent durant le projet, google m'envoyait un erreur 403), l'ajout de hook personnalisé, de nombreuses autres modifications ont été apportées.
 
+- [x] **Scroll To Top**. Amélioration UX afin que l'utilisateur puisse remonter en haut de la page facilement. Suite à cela, le raccourci vers le profil dans la sidebar faisait doublon et a donc été retiré.
+
 - [x] **Typescript**. Passage en totalité du projet en ``Typescript``.

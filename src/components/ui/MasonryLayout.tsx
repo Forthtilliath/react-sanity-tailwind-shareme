@@ -1,8 +1,8 @@
 import React from 'react';
 import Masonry from 'react-masonry-css';
 
-import { Pin } from '.';
-import { MasonryLayoutType } from '../@types';
+import { Pin } from '..';
+import { MasonryLayoutType } from '../../@types';
 
 const breakpointObj = {
   default: 4,

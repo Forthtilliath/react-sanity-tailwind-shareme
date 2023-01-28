@@ -8,11 +8,18 @@ import React, {
   useState,
 } from 'react';
 
-import { IUserContext, TUser, TUserDB } from '../../@types';
-import { client } from '../../client';
+import { fetchUser } from 'utils/queries';
+
+import { TSetter, TUser, TUserDB } from '../../@types';
 import { LOCALSTORAGE_KEY_USER } from '../constants';
-import { userQuery } from '../data';
 import { getSeconds } from '../methods';
+
+export interface IUserContext {
+  user: TUser | null | undefined;
+  setUser: TSetter<TUser | null | undefined>;
+  encode: (data: TUser) => string;
+  login: (data: TUserDB) => void;
+}
 
 const UserContext = createContext<IUserContext | null>(null);
 
@@ -23,18 +30,16 @@ function UserProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (userInfo) {
-      const query = userQuery(userInfo._id);
-      client.fetch(query).then((data) => {
-        if (data.length === 1) {
-          setUser(data[0]);
-        } else {
-          setUser(null);
-          localStorage.removeItem(LOCALSTORAGE_KEY_USER);
+      fetchUser(userInfo._id).then((user) => {
+        console.log('userContext', { userInfo, user });
+        setUser(user);
+        if (!user) {
+          window.localStorage.removeItem(LOCALSTORAGE_KEY_USER);
         }
       });
     } else {
       setUser(null);
-      localStorage.removeItem(LOCALSTORAGE_KEY_USER);
+      window.localStorage.removeItem(LOCALSTORAGE_KEY_USER);
     }
   }, []);
 
@@ -57,11 +62,14 @@ function UserProvider({ children }: PropsWithChildren) {
   };
 
   const encode = (data: TUser) => {
+    if (!process.env.REACT_APP_TOKEN_KEY)
+      throw new Error('REACT_APP_TOKEN_KEY not found!');
+
     const encodeOptions = {
       expiresIn: '7d',
       algorithm: 'HS512',
     };
-    return jwt_encode(data, process.env.REACT_APP_TOKEN_KEY!, encodeOptions);
+    return jwt_encode(data, process.env.REACT_APP_TOKEN_KEY, encodeOptions);
   };
 
   const value = {

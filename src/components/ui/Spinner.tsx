@@ -1,7 +1,7 @@
 import React from 'react';
 import { Circles } from 'react-loader-spinner';
 
-import { SpinnerType } from '../@types';
+import { SpinnerType } from '../../@types';
 
 const Spinner: SpinnerType = ({ message }) => {
   return (

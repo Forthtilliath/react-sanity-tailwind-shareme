@@ -1,53 +1,55 @@
 import { TCategorieData, TPinData } from '../@types';
 
+export const categoriesPath = process.env.PUBLIC_URL + '/assets/categories/';
+
 export const categories: TCategorieData[] = [
   {
     name: 'cars',
-    image: process.env.PUBLIC_URL + '/assets/categories/cars.jpg',
+    image: categoriesPath + 'cars.jpg',
   },
   {
     name: 'fitness',
-    image: process.env.PUBLIC_URL + '/assets/categories/fitness.jpg',
+    image: categoriesPath + 'fitness.jpg',
   },
   {
     name: 'wallpaper',
-    image: process.env.PUBLIC_URL + '/assets/categories/wallpaper.jpg',
+    image: categoriesPath + 'wallpaper.jpg',
   },
   {
     name: 'websites',
-    image: process.env.PUBLIC_URL + '/assets/categories/websites.jpg',
+    image: categoriesPath + 'websites.jpg',
   },
   {
     name: 'photo',
-    image: process.env.PUBLIC_URL + '/assets/categories/photo.jpg',
+    image: categoriesPath + 'photo.jpg',
   },
   {
     name: 'food',
-    image: process.env.PUBLIC_URL + '/assets/categories/food.jpg',
+    image: categoriesPath + 'food.jpg',
   },
   {
     name: 'nature',
-    image: process.env.PUBLIC_URL + '/assets/categories/nature.jpg',
+    image: categoriesPath + 'nature.jpg',
   },
   {
     name: 'art',
-    image: process.env.PUBLIC_URL + '/assets/categories/art.jpg',
+    image: categoriesPath + 'art.jpg',
   },
   {
     name: 'travel',
-    image: process.env.PUBLIC_URL + '/assets/categories/travel.jpg',
+    image: categoriesPath + 'travel.jpg',
   },
   {
     name: 'quotes',
-    image: process.env.PUBLIC_URL + '/assets/categories/quotes.jpg',
+    image: categoriesPath + 'quotes.jpg',
   },
   {
     name: 'cats',
-    image: process.env.PUBLIC_URL + '/assets/categories/cats.jpg',
+    image: categoriesPath + 'cats.jpg',
   },
   {
     name: 'dogs',
-    image: process.env.PUBLIC_URL + '/assets/categories/dogs.jpg',
+    image: categoriesPath + 'dogs.jpg',
   },
   {
     name: 'other',

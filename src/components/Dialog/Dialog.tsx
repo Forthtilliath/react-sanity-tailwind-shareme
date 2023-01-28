@@ -2,9 +2,9 @@ import React from 'react';
 import ReactFocusLock from 'react-focus-lock';
 import { MdClose } from 'react-icons/md';
 
+import { OutsideClickHandler } from '../';
 import { DialogType } from '../../@types';
-import OutsideClickHandler from '../OutsideClickHandler';
-import Button from './Button';
+import { Button } from './';
 
 const Dialog: DialogType = ({ open, onClose, children }) => {
   if (!open) {

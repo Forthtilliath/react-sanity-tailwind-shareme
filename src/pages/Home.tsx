@@ -4,12 +4,14 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { Link, Outlet } from 'react-router-dom';
 
-import ScrollToTop from '../components/ScrollToTopByRef';
+import { useSearchContext } from 'utils/contexts/SearchContext';
 
+import ScrollToTop from '../components/helpers/ScrollToTopByRef';
+import { Sidebar } from '../parts';
 import { useUserContext } from '../utils/contexts/UserContext';
-import { useToggle } from '../utils/hooks';
+import { useRouter, useToggle } from '../utils/hooks';
 
-import { Sidebar } from '../components';
+// const MemoSidebar = React.memo(Sidebar);
 
 const Home = () => {
   const {
@@ -19,6 +21,15 @@ const Home = () => {
   } = useToggle(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { user } = useUserContext();
+  const { pathname, path } = useRouter();
+  const { setSearchTerm } = useSearchContext();
+
+  useEffect(() => {
+    console.log({ pathname, path });
+    // if (pathname === '/search') {
+    setSearchTerm('');
+    // }
+  }, [pathname]);
 
   useEffect(() => {
     scrollRef?.current?.scrollTo(0, 0);

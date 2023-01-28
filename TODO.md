@@ -1,0 +1,6 @@
+- [x] : clear search input quand on clique sur un lien
+- [ ] : ajouter un bouton pour clear search input
+- [ ] : useQuery user
+- [ ] : remove search page
+- [ ] : profile page : boutton supprimer compte
+- [ ] : Navbar : icone avatar qui ne charge pas toujours au premier load

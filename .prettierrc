@@ -10,9 +10,11 @@
   "endOfLine": "auto",
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "/components/",
-    "/utils/",
-    "/styles/",
+    "^@types$",
+    "^pages/(.*)$",
+    "^parts/(.*)$",
+    "^components/(.*)$",
+    "^utils/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,

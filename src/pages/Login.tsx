@@ -2,36 +2,26 @@ import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { SanityDocument } from '@sanity/client';
 import jwt_decode from 'jwt-decode';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { ROLES } from '../../utils/constants';
-import { useUserContext } from '../../utils/contexts/UserContext';
+import { TUserDB, TUserGoogle } from '@types';
 
-import { TUserDB, TUserGoogle } from '../../@types';
-import { client } from '../../client';
+import { useUserContext } from 'utils/contexts/UserContext';
+import { useRouter } from 'utils/hooks';
+import { createUserIfNotExists } from 'utils/queries';
 
 const Login = () => {
-  const navigate = useNavigate();
   const { login } = useUserContext();
+  const { navigate, state } = useRouter();
+  const from = state?.from ?? '/';
 
   const responseGoogle = async (res: CredentialResponse) => {
     if (!res.credential) return;
 
     const user: TUserGoogle = jwt_decode(res.credential);
 
-    const { name, sub, picture } = user;
-
-    const doc = {
-      _id: sub,
-      _type: 'user',
-      userName: name,
-      image: picture,
-      roles: [ROLES.user],
-    };
-
-    client.createIfNotExists(doc).then((data: SanityDocument<TUserDB>) => {
+    createUserIfNotExists(user).then((data: SanityDocument<TUserDB>) => {
       login(data);
-      navigate('/', { replace: true });
+      navigate(from, { replace: true });
     });
   };
 
